@@ -40,6 +40,10 @@ app.get('/contact', function(req, res){
   res.render('contact', { csrf: 'CSRF token here'});
 });
 
+app.get('/profile_page', function(req, res){
+  res.render('profile_page');
+});
+
 app.use(function(req, res){
   res.type('text/html');
   res.status(404);
@@ -56,6 +60,3 @@ app.use(function(err, req, res, next){
 app.listen(app.get('port'), function(){
   console.log('Express started on http://localhost:' + app.get('port') + ' press Ctrl-C to terminate');
 });
-
-
-
