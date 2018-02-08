@@ -44,6 +44,10 @@ app.get('/profile_page', function(req, res){
   res.render('profile_page');
 });
 
+app.get('/search_plan_page', function(req, res){
+  res.render('search_plan_page');
+});
+
 app.use(function(req, res){
   res.type('text/html');
   res.status(404);
