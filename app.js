@@ -9,13 +9,6 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
-app.use(require('body-parser').urlencoded({extended: true}));
-
-var formidable = require('formidable');
-
-var credentials = require('./credentials.js');
-app.use(require('cookie-parser')(credentials.cookieSecret));
-
 app.set('port', process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
