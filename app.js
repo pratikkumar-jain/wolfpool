@@ -71,13 +71,12 @@ var uri = "mongodb://localhost:27017/wolfpool";
 
 MongoClient.connect(uri, function(err, db) {
   console.log("connected");
+  var date = new Date();
   if (err) throw err;
   var dbo = db.db("mydb");
   var myobj = { name: "Company Inc", address: "Highway 37" + date.getTime()};
   dbo.collection("customers").insertOne(myobj, function(err, res) {
     if (err) throw err;
-    var date = new Date();
-
     console.log("1 document inserted at " + date.getTime());
     db.close();
   });
