@@ -22,10 +22,11 @@
     "e2e-test": "samples test deploy"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "4.15.4",
+    "express-handlebars": "^2.0.1",
     "mongodb": "^3.0.2",
-    "mysql": "^2.15.0",
-    "express-handlebars": "^2.0.1"
+    "mysql": "^2.15.0"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "1.4.17"

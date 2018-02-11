@@ -13,44 +13,8 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res){
-  res.render('home');
-});
-
-app.use(function(req, res, next){
-  console.log("Looking for URL : " + req.url);
-  next();
-});
-
-app.get('/junk', function(req, res, next){
-  console.log('Tried to access /junk');
-  throw new Error('/junk doesn\'t exist');
-});
-
-app.use(function(err, req, res, next){
-  console.log('Error : ' + err.message);
-  next();
-});
-
-app.get('/about', function(req, res){
-  res.render('about');
-});
-
-app.get('/create_plan_page', function(req, res){
-  res.render('create_plan_page');
-});
-
-app.get('/contact', function(req, res){
-  res.render('contact', { csrf: 'CSRF token here'});
-});
-
-app.get('/profile_page', function(req, res){
-  res.render('profile_page');
-});
-
-app.get('/search_plan_page', function(req, res){
-  res.render('search_plan_page');
-});
+// send app to router
+require('./router')(app);
 
 app.use(function(req, res){
   res.type('text/html');
