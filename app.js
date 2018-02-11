@@ -1,6 +1,14 @@
 var express = require('express');
 
 var app = express();
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://localhost:27017/wolfpool';
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+
 
 app.disable('x-powered-by');
 
@@ -10,6 +18,8 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
+
+
 
 app.use(express.static(__dirname + '/public'));
 
