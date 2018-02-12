@@ -36,11 +36,12 @@ exports.createUser = function(req, res){
             }
           });
 
+          var host = 'http://localhost:3000';
           var mailOptions = {
             from: 'support@wolfpool.com',
             to: req.body.email,
             subject: 'Wolfpool user verification',
-            html: '<h1>Please click on the <a href="www.google.com/'+ verfhash +'">link</a> to verify your account</h1>The link will expire in 24 hours'
+            html: '<h1>Please click on the <a href="' + host + '/verify_user/' + req.body.email + '/' + verfhash + '">link</a> to verify your account</h1>The link will expire in 24 hours'
           };
 
           transporter.sendMail(mailOptions, function(error, info){
@@ -56,5 +57,37 @@ exports.createUser = function(req, res){
 
   } else {
     return res.redirect('/');
+  }
+};
+
+exports.verifyUser = function (req, res) {
+
+  var User = require('../models/user');
+
+  // Check if all parameters are passed
+  if (req.params.email && req.params.verfhash){
+    User.findOne({email : req.params.email, verification_hash: req.params.verfhash})
+      .exec(function(err, user){
+      if (err) {
+        return res.render('500')
+      } else if (!user) {
+        console.log('User not found.');
+        return res.render('404');
+      } else {
+        User.update(
+          { email : req.params.email},
+          { "$set": { verified: true } },
+          function (err, raw) {
+            if (err) {
+                console.log('Error log: ' + err)
+            } else {
+                return res.send('User verified');
+            }
+          }
+        )
+      }
+    })
+  } else {
+    return res.render('404');
   }
 };

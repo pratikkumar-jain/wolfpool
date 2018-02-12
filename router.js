@@ -42,5 +42,6 @@ module.exports = function(app){
 	app.get('/register_page', function(req, res){
 			res.render('register');
 	});
+	app.get('/verify_user/:email/:verfhash', UserController.verifyUser);
 	app.post('/createUser', UserController.createUser);
 };
