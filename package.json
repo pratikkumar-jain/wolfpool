@@ -1,10 +1,10 @@
 {
-  "name": "appengine-hello-world",
-  "description": "Simple Hello World Node.js sample for Google App Engine Flexible Environment.",
+  "name": "wolfpool",
+  "description": "A simple webapplication to help plan rides",
   "version": "0.0.1",
   "private": true,
   "license": "Apache-2.0",
-  "author": "Google Inc.",
+  "author": "SENG",
   "repository": {
     "type": "git",
     "url": "https://github.com/CJ8664/wolfpool.git"
@@ -13,7 +13,7 @@
     "node": ">=4.3.2"
   },
   "scripts": {
-    "deploy": "gcloud app deploy",
+    "deploy": "eb deploy",
     "start": "node app.js",
     "lint": "samples lint",
     "pretest": "npm run lint",
@@ -22,23 +22,13 @@
     "e2e-test": "samples test deploy"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
-    "express": "4.15.4",
+    "express": "^4.15.4",
     "express-handlebars": "^2.0.1",
+    "express-sessions": "^1.0.6",
     "mongodb": "^3.0.2",
     "mongoose": "^5.0.4",
     "mysql": "^2.15.0"
-  },
-  "devDependencies": {
-    "@google-cloud/nodejs-repo-tools": "1.4.17"
-  },
-  "cloud-repo-tools": {
-    "test": {
-      "app": {
-        "msg": "Hello, world!"
-      }
-    },
-    "requiresKeyFile": true,
-    "requiresProjectId": true
   }
 }
