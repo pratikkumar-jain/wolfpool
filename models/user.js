@@ -20,6 +20,7 @@ var userSchema = new mongoose.Schema({
   phone: String,
   gender: String,
   verified: Boolean,
+  verification_hash: String,
   university: String,
   address: String
 });
