@@ -1,0 +1,74 @@
+<div class="page-header">
+<h3>Search Plan</h3>
+</div>
+<form class="formProfilePages" role="form"
+  action="/searchPlan" method="POST">
+
+  <div class="form-group">
+    <label for="fieldSource" class="col-sm-2 control-label">Enter Source</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="fieldSource" name="source">
+    </div>
+  </div> <!-- End of form-group -->
+
+<div class="form-group" hidden>
+      <input type="text" class="form-control" id="source_lat" name="source_lat">
+  </div> <!-- End of form-group -->
+
+<div class="form-group" hidden>
+      <input type="text" class="form-control" id="source_long" name="source_long">
+  </div> <!-- End of form-group -->
+
+  <div class="form-group">
+    <label for="fieldDest" class="col-sm-2 control-label">Enter Destinaiton</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="fieldDest" name="destination">
+    </div>
+  </div> <!-- End of form-group -->
+
+  <div class="form-group" hidden>
+      <input type="text" class="form-control" id="dest_lat" name="dest_lat">
+  </div> <!-- End of form-group -->
+
+<div class="form-group" hidden>
+      <input type="text" class="form-control" id="dest_long" name="dest_long">
+  </div> <!-- End of form-group -->
+
+
+  <div class="form-group">
+    <label for="date_id" class="col-sm-2 control-label">
+    Date</label>
+    <div class="col-sm-4">
+      <input type="datepicker" class="form-control" id="date_id"
+      name="date">
+    </div>
+  </div> <!-- End of form-group -->
+
+<div class="form-group">
+    <label for="time_id" class="col-sm-2 control-label">
+    Time</label>
+    <div class="col-sm-4">
+      <input type="time" class="form-control" id="time_id"
+      name="time">
+    </div>
+  </div> <!-- End of form-group -->
+
+<div class="form-group">
+    <label for="time_id" class="col-sm-2 control-label">
+    Vacancy</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="time_id"
+      name="time">
+    </div>
+  </div> <!-- End of form-group -->
+
+
+  <div class="form-group">
+    <div class="col-sm-4">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </div> <!-- End of form-group -->
+
+
+
+</form>
