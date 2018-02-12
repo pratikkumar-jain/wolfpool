@@ -60,13 +60,13 @@ exports.createUser = function(req, res){
   }
 };
 
-exports.verifyUser = function (req, res) {
+exports.verifyUser = function(req, res){
 
   var User = require('../models/user');
 
   // Check if all parameters are passed
   if (req.params.email && req.params.verfhash){
-    User.findOne({email : req.params.email, verification_hash: req.params.verfhash})
+    User.findOne({email : req.params.email, verification_hash: req.params.verfhash, verified: false})
       .exec(function(err, user){
       if (err) {
         return res.render('500')
@@ -91,3 +91,34 @@ exports.verifyUser = function (req, res) {
     return res.render('404');
   }
 };
+
+exports.loginUser = function(req, res){
+  var User = require('../models/user');
+  var bcrypt = require('bcrypt');
+  // Check if all parameters are passed
+  if (req.body.email && req.body.password) {
+    User.authenticate(req.body.email, req.body.password, function (error, user) {
+      if (error || !user) {
+        var err = new Error('Wrong email or password.');
+        err.status = 401;
+        return next(err);
+      } else {
+        req.session.userId = user._id;
+        return res.redirect('/');
+      }
+    });
+  }
+};
+
+exports.logoutUser = function(req, res, next){
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function(err) {
+      if(err) {
+        return next(err);
+      } else {
+        return res.redirect('/');
+      }
+    });
+  }
+}

@@ -37,4 +37,26 @@ userSchema.pre('save', function (next) {
   })
 });
 
-module.exports = mongoose.model('User', userSchema);
+//authenticate input against database
+userSchema.statics.authenticate = function (email, password, callback) {
+  User.findOne({ email: email , verified: true})
+    .exec(function (err, user) {
+      if (err) {
+        return callback(err)
+      } else if (!user) {
+        var err = new Error('User not found.');
+        err.status = 401;
+        return callback(err);
+      }
+      bcrypt.compare(password, user.password, function (err, result) {
+        if (result === true) {
+          return callback(null, user);
+        } else {
+          return callback();
+        }
+      })
+    });
+}
+
+var User = mongoose.model('User', userSchema);
+module.exports = User;

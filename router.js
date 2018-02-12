@@ -15,13 +15,14 @@ module.exports = function(app){
 	app.get('/about', function(req, res){
   		res.render('about');
 	});
-	app.get('/login_page', function(req, res){
-			res.render('login');
-	});
 
 	// Routes related to Plan
 	app.get('/create_plan_page', function(req, res){
-		res.render('create_plan_page');
+		if (req.session && req.session.userId) {
+			res.render('create_plan_page');
+		} else {
+			res.send('You must be logged in to view this page.');
+		}
 	});
   app.post('/savePlan',PlanController.savePlan);
   app.get('/search_plan_page', function(req, res){
@@ -44,4 +45,9 @@ module.exports = function(app){
 	});
 	app.get('/verify_user/:email/:verfhash', UserController.verifyUser);
 	app.post('/createUser', UserController.createUser);
+	app.get('/login_page', function(req, res){
+			res.render('login');
+	});
+	app.post('/loginUser', UserController.loginUser);
+	app.get('/logout_page', UserController.logoutUser)
 };
