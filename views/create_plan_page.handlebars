@@ -58,7 +58,7 @@
     Number of people: </label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="no_of_people_id"
-      name="no_of_people">
+      name="vacancy">
     </div>
   </div> <!-- End of form-group -->
 
@@ -73,14 +73,21 @@
       <button type="submit" class="btn btn-default">Cancel</button>
     </div>
   </div> <!-- End of form-group -->
-<fieldset class="details" >
-      <label>Latitude</label>
-      <input name="lat" type="text" value="">
-      <label>Longitude</label>
-      <input name="lng" type="text" value="">
-    </fieldset>
+  <fieldset class="details_src" hidden="true">
+    <label>Latitude</label>
+    <input name="lat" type="text" value="">
+    <label>Longitude</label>
+    <input name="lng" type="text" value="">
+  </fieldset>
+  <fieldset class="details_dest" hidden="true">
+    <label>Latitude</label>
+    <input name="lat" type="text" value="">
+    <label>Longitude</label>
+    <input name="lng" type="text" value="">
+  </fieldset>
     <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
 </form>
+
 <script>
   var options;
       var currLat=0;
@@ -100,7 +107,7 @@
     console.log(currLong);
     options = {
           map: ".map_canvas",
-          details:"form",
+          details:".details_src",
           location:[currLat,currLong]
         };
      $("#source_id").geocomplete(options);   
@@ -109,7 +116,7 @@
   $("#source_id").on("focus",function(){
     options = {
       map: ".map_canvas",
-      details:"form",
+      details:".details_src",
       location:[$('input[name=lat]').val(),$('input[name=lng]').val()],
       "mapOptions.zoom":18,
       maxZoom:18
@@ -121,7 +128,7 @@
   $("#destination_id").on("focus",function(){
     options = {
       map: ".map_canvas",
-      details:"form",
+      details:".details_dest",
       location:[$('input[name=lat]').val(),$('input[name=lng]').val()],
       "mapOptions.zoom":18,
     };
