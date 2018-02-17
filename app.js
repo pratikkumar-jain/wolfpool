@@ -5,7 +5,7 @@ var handlebars = require('express-handlebars');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(session);
 var expressValidator = require('express-validator');
-
+var geolib=require('geolib');
 // Database code
 mongoose.connect('mongodb://localhost:27017/wolfpool');
 mongoose.Promise = global.Promise;
@@ -34,7 +34,6 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public'));
 
 app.use(expressValidator());
-
 // send app to router
 require('./router')(app);
 

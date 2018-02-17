@@ -17,9 +17,9 @@ module.exports = function(app){
 	});
 
 	// Routes related to Plan
-	app.get('/create_plan_page', function(req, res){
+	app.get('/create_search_plan_page', function(req, res){
 		if (req.session && req.session.userId) {
-			res.render('create_plan_page');
+			res.render('create_search_plan_page');
 		} else {
 			res.send('You must be logged in to view this page.');
 		}

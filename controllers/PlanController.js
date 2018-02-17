@@ -1,5 +1,5 @@
 exports.savePlan = function(request, response){
-    //response.send(request.body);
+    
     var planModel = require('../models/plan')
     var planData = new planModel({source_lat:request.body.lat[0],
                                   source_long:request.body.lng[0],
@@ -20,5 +20,4 @@ exports.savePlan = function(request, response){
 
 exports.searchPlan = function(request, response){
     response.send('You sent the name "' + request.body + '".');
-    //response.render('/home');
 };
