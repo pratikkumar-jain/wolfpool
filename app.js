@@ -4,6 +4,7 @@ var session = require('express-session');
 var handlebars = require('express-handlebars');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(session);
+var expressValidator = require('express-validator');
 
 // Database code
 mongoose.connect('mongodb://localhost:27017/wolfpool');
@@ -32,8 +33,12 @@ app.disable('x-powered-by');
 app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public'));
 
+app.use(expressValidator());
+
 // send app to router
 require('./router')(app);
+
+
 
 app.use(function(req, res){
   res.type('text/html');

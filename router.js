@@ -38,8 +38,10 @@ module.exports = function(app){
 
 	// Routes related to User
 	app.get('/profile_page', function(req, res){
-		res.render('profile_page');
+		res.render('profile_page',{success:false, errors: req.session.errors});
+		req.session.errors=null;
 	});
+
 	app.get('/register_page', function(req, res){
 			res.render('register');
 	});
