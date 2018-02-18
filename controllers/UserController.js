@@ -1,3 +1,4 @@
+var schedule = require('node-schedule');
 exports.createUser = function(req, res){
 
   var User = require('../models/user');
@@ -122,3 +123,13 @@ exports.logoutUser = function(req, res, next){
     });
   }
 }
+
+var rule = new schedule.RecurrenceRule();
+rule.second = 42;
+ 
+var j = schedule.scheduleJob(rule, function(){
+  console.log('Batch Executed');
+  var Users = require('../models/user');
+  var query={"verified":false};  //add check for date>=24 hrs in past
+  Users.find(query).remove().exec();
+});
