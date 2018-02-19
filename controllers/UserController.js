@@ -50,7 +50,7 @@ exports.createUser = function(req, res){
               console.log(error);
             } else {
               console.log('Email sent: ' + info.response);
-              return res.send('An email has been sent to you with verification link please');
+              return res.render('info_page',{data:'An email has been sent to you with verification link.'});
             }
           });
         }
@@ -82,7 +82,7 @@ exports.verifyUser = function(req, res){
             if (err) {
                 console.log('Error log: ' + err)
             } else {
-                return res.send('User verified');
+                res.render('info_page',{data:'Account Verified. Search for ',name:'plans', link:'create_search_plan_page'});
             }
           }
         )
@@ -105,7 +105,7 @@ exports.loginUser = function(req, res){
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.redirect('/');
+        return res.redirect('/home');
       }
     });
   }

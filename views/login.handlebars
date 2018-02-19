@@ -1,4 +1,4 @@
-<form role="form" action="/loginUser" method="POST">
+<form role="form" action="/loginUser" method="POST" class="form-horizontal">
   <div class="form-group">
     <label for="emal_id" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-4">
@@ -9,7 +9,12 @@
       <input type="password" class="form-control" id="password_id" name="password">
     </div>
   </div>
-  <div class="col-sm-4">
-    <input type="submit" class="form-control" id="submit_id" name="Register">
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default" id="submit_id" name="Register">Submit</button>
+    </div>
   </div>
+  <label class="col-sm-2 control-label">New User?</label>
+  <label class="col-sm-1 control-label" OnClick="location.href = '/register_page';"><a>Register</a></label>
+  
 </form>

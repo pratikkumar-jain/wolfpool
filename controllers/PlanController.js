@@ -13,14 +13,16 @@ exports.savePlan = function(request, response){
                                 });
   		planData.save()
     .then(item => {
-      response.send("item saved to database");
+      response.render('info_page',{data:"Item saved to database. Back to ", name:'home',link:'home' });
     })
     .catch(err => {
-      response.status(400).send("unable to save to database");
+      console.log(err)
+      response.render('info_page',{data:"unable to save to database"});
     });
 };
 
 exports.searchPlan = function(request, response){
+  console.log(request.body)
   var Plan = require('../models/plan');
   console.log("************search plan");
   var currSrc = {lat: 35.7876073, lng: -78.6692593}; //need to add data from server that user has entered

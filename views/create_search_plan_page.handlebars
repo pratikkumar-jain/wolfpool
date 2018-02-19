@@ -13,7 +13,7 @@
 </div>
 <div >
 <form role="form"
-  action="/savePlan" method="POST">
+  action="/savePlan" method="POST" id="form1">
 
 
 
@@ -39,7 +39,7 @@
     <label for="date_id" class="col-sm-2 control-label">
     Date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="date_id"
+      <input type="date" class="form-control" id="date_id"
       name="date">
     </div>
   </div> <!-- End of form-group -->
@@ -48,7 +48,7 @@
     <label for="time_id" class="col-sm-2 control-label">
     Time</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="time_id"
+      <input type="time" class="form-control" id="time_id"
       name="time">
     </div>
   </div> <!-- End of form-group -->
@@ -64,28 +64,29 @@
 
   <div class="form-group">
     <div class="col-sm-4">
-      <button type="submit" class="btn btn-default">Search</button>
+      <button type="button" onclick="send()" class="btn btn-default">Search</button>
     </div>
   </div> <!-- End of form-group -->
 
    <div class="form-group">
     <div class="col-sm-4">
-      <button type="submit" class="btn btn-default">Cancel</button>
+      <button type="submit" class="btn btn-default">Create</button>
     </div>
   </div> <!-- End of form-group -->
   <fieldset class="details_src" hidden="true">
     <label>Latitude</label>
-    <input name="lat" type="text" value="">
+    <input name="lat" type="text" value="" id="source_lat">
     <label>Longitude</label>
-    <input name="lng" type="text" value="">
+    <input name="lng" type="text" value="" id="source_long">
   </fieldset>
   <fieldset class="details_dest" hidden="true">
     <label>Latitude</label>
-    <input name="lat" type="text" value="">
+    <input name="lat" type="text" value="" id="dest_lat">
     <label>Longitude</label>
-    <input name="lng" type="text" value="">
+    <input name="lng" type="text" value="" id="dest_long">
   </fieldset>
     <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
+    <div id="result"></div>
 </form>
 
 <script>
@@ -137,4 +138,27 @@
   });
 });
 </script>
+ <script type="text/javascript" src="jquery-1.12.3.js"></script>
+        <script>
+            function send(){
+             var userdata = new Object();
+             userdata.source_lat=document.getElementById("source_lat").value;
+             userdata.source_long=document.getElementById("source_long").value;
+             userdata.dest_lat=document.getElementById("dest_lat").value;
+             userdata.dest_long=document.getElementById("dest_long").value;
+             userdata.date=document.getElementById("date_id").value;
+             userdata.time=document.getElementById("time_id").value;
+             userdata.vacancy=document.getElementById("no_of_people_id").value;
+             $.ajax({
+              type: "POST",
+              url: "/searchPlan",
+              async: false,   
+              data: JSON.stringify(userdata),
+              complete: function(data){
+              alert("Data Sent");
+               },
+             }); 
+            }
+        </script>
+
 </div>
