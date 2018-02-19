@@ -22,7 +22,8 @@ var userSchema = new mongoose.Schema({
   verified: Boolean,
   verification_hash: String,
   university: String,
-  address: String
+  address: String,
+  created_date: { type: Date, default: Date.now }
 });
 
 //hashing a password before saving it to the database

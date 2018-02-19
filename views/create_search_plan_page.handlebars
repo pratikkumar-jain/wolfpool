@@ -1,0 +1,164 @@
+<style>
+.form-group{
+	  margin-bottom: 10px;
+}
+</style>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places&key=AIzaSyAhftsNX43-RM-L4GBYbjxjUWnOVNKPuFY"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="js/jquery.geocomplete.js"></script>
+
+
+<div class="page-header">
+<h3>Create Plan</h3>
+</div>
+<div >
+<form role="form"
+  action="/savePlan" method="POST" id="form1">
+
+
+
+<div class="form-group">
+    <label for="source_id" class="col-sm-2 control-label">
+    Source</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="source_id"
+      name="source" placeholder="Type in an address">
+    </div>
+  </div> <!-- End of form-group -->
+
+<div class="form-group">
+    <label for="destination_id" class="col-sm-2 control-label">
+    Destination</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="destination_id"
+      name="destination" placeholder="Type in an address">
+    </div>
+  </div> <!-- End of form-group -->
+
+<div class="form-group">
+    <label for="date_id" class="col-sm-2 control-label">
+    Date</label>
+    <div class="col-sm-4">
+      <input type="date" class="form-control" id="date_id"
+      name="date">
+    </div>
+  </div> <!-- End of form-group -->
+
+<div class="form-group">
+    <label for="time_id" class="col-sm-2 control-label">
+    Time</label>
+    <div class="col-sm-4">
+      <input type="time" class="form-control" id="time_id"
+      name="time">
+    </div>
+  </div> <!-- End of form-group -->
+
+<div class="form-group">
+    <label for="no_of_people_id" class="col-sm-2 control-label">
+    Number of people: </label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="no_of_people_id"
+      name="vacancy">
+    </div>
+  </div> <!-- End of form-group -->
+
+  <div class="form-group">
+    <div class="col-sm-4">
+      <button type="button" onclick="send()" class="btn btn-default">Search</button>
+    </div>
+  </div> <!-- End of form-group -->
+
+   <div class="form-group">
+    <div class="col-sm-4">
+      <button type="submit" class="btn btn-default">Create</button>
+    </div>
+  </div> <!-- End of form-group -->
+  <fieldset class="details_src" hidden="true">
+    <label>Latitude</label>
+    <input name="lat" type="text" value="" id="source_lat">
+    <label>Longitude</label>
+    <input name="lng" type="text" value="" id="source_long">
+  </fieldset>
+  <fieldset class="details_dest" hidden="true">
+    <label>Latitude</label>
+    <input name="lat" type="text" value="" id="dest_lat">
+    <label>Longitude</label>
+    <input name="lng" type="text" value="" id="dest_long">
+  </fieldset>
+    <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
+    <div id="result"></div>
+</form>
+
+<script>
+  var options;
+      var currLat=0;
+      var currLong=0;
+    $( document ).ready(function() {
+          if (navigator.geolocation) {
+              console.log(navigator.geolocation.getCurrentPosition(showPosition));
+          } else { 
+              alert("Geolocation is not supported by this browser.");
+          }
+
+       
+  function showPosition(position) {
+    currLat = position.coords.latitude;
+    currLong = position.coords.longitude;
+    console.log(currLat);
+    console.log(currLong);
+    options = {
+          map: ".map_canvas",
+          details:".details_src",
+          location:[currLat,currLong]
+        };
+     $("#source_id").geocomplete(options);   
+  }  
+
+  $("#source_id").on("focus",function(){
+    options = {
+      map: ".map_canvas",
+      details:".details_src",
+      location:[$('input[name=lat]').val(),$('input[name=lng]').val()],
+      "mapOptions.zoom":18,
+      maxZoom:18
+    };
+    $(this).geocomplete(options);
+    console.log("src "+$('input[name=lat]').val()+" "+$('input[name=lng]').val());
+  });
+
+  $("#destination_id").on("focus",function(){
+    options = {
+      map: ".map_canvas",
+      details:".details_dest",
+      location:[$('input[name=lat]').val(),$('input[name=lng]').val()],
+      "mapOptions.zoom":18,
+    };
+    $(this).geocomplete(options);
+    console.log("dest "+$('input[name=lat]').val()+" "+$('input[name=lng]').val());
+  });
+});
+</script>
+ <script type="text/javascript" src="jquery-1.12.3.js"></script>
+        <script>
+            function send(){
+             var userdata = new Object();
+             userdata.source_lat=document.getElementById("source_lat").value;
+             userdata.source_long=document.getElementById("source_long").value;
+             userdata.dest_lat=document.getElementById("dest_lat").value;
+             userdata.dest_long=document.getElementById("dest_long").value;
+             userdata.date=document.getElementById("date_id").value;
+             userdata.time=document.getElementById("time_id").value;
+             userdata.vacancy=document.getElementById("no_of_people_id").value;
+             $.ajax({
+              type: "POST",
+              url: "/searchPlan",
+              async: false,   
+              data: JSON.stringify(userdata),
+              complete: function(data){
+              alert("Data Sent");
+               },
+             }); 
+            }
+        </script>
+
+</div>

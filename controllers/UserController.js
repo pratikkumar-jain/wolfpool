@@ -1,3 +1,4 @@
+var schedule = require('node-schedule');
 exports.createUser = function(req, res){
 
   var User = require('../models/user');
@@ -49,7 +50,7 @@ exports.createUser = function(req, res){
               console.log(error);
             } else {
               console.log('Email sent: ' + info.response);
-              return res.send('An email has been sent to you with verification link please');
+              return res.render('info_page',{data:'An email has been sent to you with verification link.'});
             }
           });
         }
@@ -81,7 +82,7 @@ exports.verifyUser = function(req, res){
             if (err) {
                 console.log('Error log: ' + err)
             } else {
-                return res.send('User verified');
+                res.render('info_page',{data:'Account Verified. Search for ',name:'plans', link:'create_search_plan_page'});
             }
           }
         )
@@ -104,7 +105,7 @@ exports.loginUser = function(req, res){
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.redirect('/');
+        return res.redirect('/home');
       }
     });
   }
@@ -122,3 +123,13 @@ exports.logoutUser = function(req, res, next){
     });
   }
 }
+
+var rule = new schedule.RecurrenceRule();
+rule.second = 42;
+ 
+var j = schedule.scheduleJob(rule, function(){
+  console.log('Batch Executed');
+  var Users = require('../models/user');
+  var query={"verified":false};  //add check for date>=24 hrs in past
+  Users.find(query).remove().exec();
+});
