@@ -37,7 +37,7 @@ exports.createUser = function(req, res){
 
           var websitehost = 'http://localhost:3000';
           var mailOptions = {
-            from: 'support@wolfpool.com',
+            from: 'sengncsu2018@gmail.com',
             to: req.body.email,
             subject: 'Wolfpool user verification',
             html: '<h1>Please click on the <a href="' + websitehost + '/verify_user/' + req.body.email + '/' + verfhash + '">link</a> to verify your account</h1>The link will expire in 24 hours'
