@@ -1,8 +1,8 @@
-<form role="form" action="/loginUser" method="POST" class="form-horizontal">
+<form role="form" action="/loginUser" onsubmit="return validateForm()" name="login_form" method="POST" class="form-horizontal">
   <div class="form-group">
     <label for="emal_id" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-4">
-      <input type="email" class="form-control" id="emal_id" name="email">
+      <input type="email" class="form-control" placeholder="abc@xyz.edu" id="emal_id" name="email">
     </div>
     <label for="password_id" class="col-sm-2 control-label">Password</label>
     <div class="col-sm-4">
@@ -16,5 +16,22 @@
   </div>
   <label class="col-sm-2 control-label">New User?</label>
   <label class="col-sm-1 control-label" OnClick="location.href = '/register_page';"><a>Register</a></label>
-  
+  <script>
+      function validateForm() {
+        var x = document.forms["login_form"]["email"].value;
+        if (x == "") {
+            alert("Email must be filled out");
+            return false;
+        }
+        if (!x.endsWith(".edu")) {
+            alert("Please enter email with .edu domain");
+            return false;
+        } 
+        x = document.forms["login_form"]["password"].value;
+        if (x == "") {
+            alert("Password must be filled out");
+            return false;
+        }
+    }
+    </script>
 </form>

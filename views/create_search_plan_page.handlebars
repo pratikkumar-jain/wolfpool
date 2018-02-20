@@ -13,7 +13,7 @@
 </div>
 <div >
 <form role="form"
-  action="/savePlan" method="POST" id="form1">
+  action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
 
 
 
@@ -22,7 +22,7 @@
     Source</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="source_id"
-      name="source" placeholder="Type in an address">
+      name="source" placeholder="Type in an address" >
     </div>
   </div> <!-- End of form-group -->
 
@@ -57,14 +57,14 @@
     <label for="no_of_people_id" class="col-sm-2 control-label">
     Number of people: </label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="no_of_people_id"
+      <input type="number" class="form-control" id="no_of_people_id"
       name="vacancy">
     </div>
   </div> <!-- End of form-group -->
 
   <div class="form-group">
     <div class="col-sm-4">
-      <button type="button" onclick="send()" class="btn btn-default">Search</button>
+      <button type="button" onclick="return send()" class="btn btn-default">Search</button>
     </div>
   </div> <!-- End of form-group -->
 
@@ -87,6 +87,52 @@
   </fieldset>
     <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
     <div id="result"></div>
+
+    <script>
+      function validateForm() {
+        var x = document.forms["search_create_form"]["source"].value;
+        if (x == "") {
+            alert("Source must be filled out");
+            return false;
+        }
+        x = document.forms["search_create_form"]["destination"].value;
+        if (x == "") {
+            alert("Destination must be filled out");
+            return false;
+        }
+        x = document.forms["search_create_form"]["date"].value;
+        if (x == "") {
+            alert("Please select a date");
+            return false;
+        }
+        var y=new Date();
+
+        if(new Date(x+" 23:59:00") < y){
+          alert("Please enter a valid date");
+          return false;
+        }
+        var t = document.forms["search_create_form"]["time"].value;
+        if (t == "") {
+            alert("Please enter time");
+            return false;
+        }
+        x=new Date(x+" "+t+":00");
+        if(x < y){
+          alert("Please enter a valid time");
+          return false;
+        }
+        x = document.forms["search_create_form"]["vacancy"].value;
+        if (x == "") {
+            alert("Please enter number of people");
+            return false;
+        }
+        if(x<1 || x>6){
+            alert("Please enter valid number of people");
+            return false;
+        }
+        return true;
+    }
+</script>
 </form>
 
 <script>
@@ -141,6 +187,8 @@
  <script type="text/javascript" src="jquery-1.12.3.js"></script>
         <script>
             function send(){
+             if(!validateForm())
+              return false;
              var userdata = new Object();
              userdata.source_lat=document.getElementById("source_lat").value;
              userdata.source_long=document.getElementById("source_long").value;
@@ -160,5 +208,4 @@
              }); 
             }
         </script>
-
 </div>
