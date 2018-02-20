@@ -15,8 +15,6 @@
 <form role="form"
   action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
 
-
-
 <div class="form-group">
     <label for="source_id" class="col-sm-2 control-label">
     Source</label>
@@ -188,26 +186,9 @@
     function send(){
      if(!validateForm())
       return false;
-     var userdata = new Object();
-     // userdata.source_lat=document.getElementById("source_lat").value;
-     // userdata.source_long=document.getElementById("source_long").value;
-     // userdata.dest_lat=document.getElementById("dest_lat").value;
-     // userdata.dest_long=document.getElementById("dest_long").value;
-     // userdata.date=document.getElementById("date_id").value;
-     // userdata.time=document.getElementById("time_id").value;
-     // userdata.vacancy=document.getElementById("no_of_people_id").value;
-     // $.ajax({
-     //  type: "POST",
-     //  url: "/searchPlan",
-     //  async: false,
-     //  data: JSON.stringify(userdata),
-     //  complete: function(data){
-     //  alert("Data Sent");
-     //   },
-     // });
 		 $.ajax({
 			type : "POST",
-				dataType : 'json', // data type
+				dataType : 'json',
 				data : $("#form1").serialize(),
       url: "/searchPlan",
       async: false,
