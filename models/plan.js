@@ -17,7 +17,8 @@ var planSchema = new mongoose.Schema({
   {
   	type: String,
   	format: '00:00'
-  }
+  },
+  //vacancy: Number
 
 });
 
