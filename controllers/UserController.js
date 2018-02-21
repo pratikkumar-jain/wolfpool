@@ -3,7 +3,7 @@ exports.createUser = function(req, res){
 
   var User = require('../models/user');
   var nodemailer = require('nodemailer');
-  var ses = require('nodemailer-ses-transport');
+  var aws = require('aws-sdk');
   var md5 = require('md5');
 
   // Check if all parameters are passed
@@ -30,10 +30,19 @@ exports.createUser = function(req, res){
         } else {
 
           // Creating Transporter using AWS SES
-          var transporter = nodemailer.createTransport(ses({
-              accessKeyId: 'AKIAJCUM65Y7TBJXYGFQ',
-              secretAccessKey: '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'
-          }));
+          // var transporter = nodemailer.createTransport(ses({
+          //     accessKeyId: 'AKIAJCUM65Y7TBJXYGFQ',
+          //     secretAccessKey: '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'
+          // }));
+
+          // configure AWS SDK
+          aws.config.loadFromPath('config.json');
+
+          let transporter = nodemailer.createTransport({
+              SES: new aws.SES({
+                  apiVersion: '2010-12-01'
+              })
+          });
 
           var websitehost = 'http://localhost:3000';
           var mailOptions = {
