@@ -15,8 +15,6 @@
 <form role="form"
   action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
 
-
-
 <div class="form-group">
     <label for="source_id" class="col-sm-2 control-label">
     Source</label>
@@ -142,11 +140,11 @@
     $( document ).ready(function() {
           if (navigator.geolocation) {
               console.log(navigator.geolocation.getCurrentPosition(showPosition));
-          } else { 
+          } else {
               alert("Geolocation is not supported by this browser.");
           }
 
-       
+
   function showPosition(position) {
     currLat = position.coords.latitude;
     currLong = position.coords.longitude;
@@ -157,8 +155,8 @@
           details:".details_src",
           location:[currLat,currLong]
         };
-     $("#source_id").geocomplete(options);   
-  }  
+     $("#source_id").geocomplete(options);
+  }
 
   $("#source_id").on("focus",function(){
     options = {
@@ -184,28 +182,20 @@
   });
 });
 </script>
- <script type="text/javascript" src="jquery-1.12.3.js"></script>
-        <script>
-            function send(){
-             if(!validateForm())
-              return false;
-             var userdata = new Object();
-             userdata.source_lat=document.getElementById("source_lat").value;
-             userdata.source_long=document.getElementById("source_long").value;
-             userdata.dest_lat=document.getElementById("dest_lat").value;
-             userdata.dest_long=document.getElementById("dest_long").value;
-             userdata.date=document.getElementById("date_id").value;
-             userdata.time=document.getElementById("time_id").value;
-             userdata.vacancy=document.getElementById("no_of_people_id").value;
-             $.ajax({
-              type: "POST",
-              url: "/searchPlan",
-              async: false,   
-              data: JSON.stringify(userdata),
-              complete: function(data){
-              alert("Data Sent");
-               },
-             }); 
-            }
-        </script>
+<script>
+    function send(){
+     if(!validateForm())
+      return false;
+		 $.ajax({
+			type : "POST",
+				dataType : 'json',
+				data : $("#form1").serialize(),
+      url: "/searchPlan",
+      async: false,
+      complete: function(data){
+      alert("Data Sent");
+       },
+     });
+    }
+</script>
 </div>

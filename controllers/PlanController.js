@@ -22,11 +22,17 @@ exports.savePlan = function(request, response){
 };
 
 exports.searchPlan = function(request, response){
-  console.log(request.body)
+  userRequest = request.body
+  console.log(userRequest)
   var Plan = require('../models/plan');
   console.log("************search plan");
-  var currSrc = {lat: 35.7876073, lng: -78.6692593}; //need to add data from server that user has entered
-  var currDest = {lat: 40.7127753, lng: -74.0059728};
+  console.log("source lat: "+userRequest.lat[0]);
+  console.log("source long: "+userRequest.lng[0]);
+  console.log("dest lat: "+userRequest.lat[1]);
+  console.log("dest long: "+userRequest.lng[1]);
+
+  var currSrc = {lat: userRequest.lat[0], lng: userRequest.lng[0]};
+  var currDest = {lat: userRequest.lat[1], lng: userRequest.lng[1]};
   var query={"vacancy":{$gt:0}}; //Data : {$gt:Date.now}
   Plan.find(query,(err,plans)=>{
     if(err){
