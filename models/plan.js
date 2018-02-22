@@ -20,7 +20,6 @@ var planSchema = new mongoose.Schema({
   },
   no_of_people: Number,
   vacancy: Number
-
 });
 
 module.exports = mongoose.model('Plan', planSchema);

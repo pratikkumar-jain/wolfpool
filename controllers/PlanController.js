@@ -28,7 +28,7 @@ exports.searchPlan = function(request, response){
   userRequest = request.body
   console.log(userRequest)
   var Plan = require('../models/plan');
-  console.log("************search plan");
+  console.log("************ search plan");
   console.log("source lat: "+userRequest.lat[0]);
   console.log("source long: "+userRequest.lng[0]);
   console.log("dest lat: "+userRequest.lat[1]);
@@ -53,7 +53,6 @@ exports.searchPlan = function(request, response){
       }
       console.log("*********result "+results);
       response.setHeader('Content-Type', 'application/json');
-      //response.send(JSON.stringify({ a: 1 }, null, 3));
       response.send(JSON.stringify(results));
       console.log("*********response render sent");
     }

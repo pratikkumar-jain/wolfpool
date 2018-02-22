@@ -12,10 +12,8 @@
 <h3>Create Plan</h3>
 </div>
 <div >
-<!--<form role="form"
-  action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">-->
 <form role="form"
-  action="/savePlan" name="search_create_form" method="POST" id="form1">
+  action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
 
 <div class="form-group">
     <label for="source_id" class="col-sm-2 control-label">
@@ -88,14 +86,21 @@
     <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
 
 		<div id="result">
-			<table id="resultTable" border="1" >
-	       <tr>
-	        <th width="5%">S.no</th>
-	        <th width="20%">Username</th>
-	        <th width="20%">Name</th>
-	        <th width="30%">Email</th>
-	       </tr>
-	    </table>
+				<table id="resultTable" style="display:none;" border="1" >
+					<thead>
+					 <tr>
+						<th width="6.5%">No.</th>
+						<th width="8.5%">Source latitude</th>
+						<th width="8.5%">Source longitude</th>
+						<th width="8.5%">Destination latitude</th>
+						<th width="8.5%">Destination longitude</th>
+						<th width="8.5%">Date</th>
+						<th width="8.5%">Time</th>
+						<th width="8.5%">Number of people</th>
+						<th width="8.5%">Vacancy</th>
+					 </tr>
+				 </thead>
+				</table>
 		</div>
 
     <script>
@@ -196,8 +201,9 @@
 </script>
 <script>
     function send(){
-     // if(!validateForm())
-     //  return false;
+
+     if(!validateForm())
+      return false;
 
 		 $.ajax({
 			type : "POST",
@@ -206,19 +212,42 @@
       url: "/searchPlan",
       async: false,
       success: function(json_data){
-        var len = json_data.length;
-        for(var i=0; i<len; i++){
-					item = json_data[i];
-					//console.log((i+1) + " " + item);
-					var tr_str = "<tr>" +
-							"<td align='center'>" + (i+1) + "</td>" +
-							"<td align='center'>" + item.source_lat + "</td>" +
-							"<td align='center'>" + item.source_long + "</td>" +
-							"<td align='center'>" + item.no_of_people + "</td>" +
-							"</tr>";
-					$("#resultTable").append(tr_str);
-		    }
+				if ($.trim(json_data)){
+
+					var already_there = $("#resultTable").is(':visible');
+					if (already_there) {
+						$('#resultTable tbody > tr').remove();
+					} else {
+						$("#resultTable").show();
+					}
+
+					var len = json_data.length;
+
+					for(var i=0; i<len; i++){
+						item = json_data[i];
+						var tr_str = "<tr>" +
+								"<td align='center'>" + (i+1) + "</td>" +
+								"<td align='center'>" + item.source_lat + "</td>" +
+								"<td align='center'>" + item.source_long + "</td>" +
+								"<td align='center'>" + item.dest_lat + "</td>" +
+								"<td align='center'>" + item.dest_long + "</td>" +
+								"<td align='center'>" + item.date + "</td>" +
+								"<td align='center'>" + item.time + "</td>" +
+								"<td align='center'>" + item.no_of_people + "</td>" +
+								"<td align='center'>" + (6 - item.no_of_people) + "</td>" +
+								"</tr>";
+						$("#resultTable").append(tr_str);
+					}
+				}
+				else{
+						$('#resultTable tbody > tr').remove();
+				    console.log("Empty JSON data received from PlanController");
+				}
        },
+    	error: function (request, status, error) {
+        alert(request.responseText);
+				console.log(request.responseText);
+      }
      });
     }
 </script>
