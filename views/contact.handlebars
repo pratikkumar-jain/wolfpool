@@ -4,7 +4,7 @@
 <div class="contactUs">
 <h4>Send Us your Questions</h4>
 <form class="formContactUs" role="form"
-  action="/process?form=contactus" method="POST">
+  action="/process?form=contactus" onsubmit="return validateForm()" name="contact_form" method="POST">
 
   <input type="hidden" name="_csrf" value="{{csrf}}">
 
@@ -12,8 +12,8 @@
     <label for="email_id" class="col-sm-2 control-label">
     Email</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="email_id"
-      name="email">
+      <input type="email" class="form-control" id="email_id"
+      placeholder="abc@xyz.edu" name="email">
     </div>
   </div> <!-- End of form-group -->
 
@@ -33,5 +33,23 @@
   </div> <!-- End of form-group -->
 
 </form>
-
+ <script>
+      function validateForm() {
+        var x = document.forms["contact_form"]["email"].value;
+        x = document.forms["contact_form"]["email"].value;
+        if (x == "") {
+            alert("Email must be filled out");
+            return false;
+        }
+        if (!x.endsWith(".edu")) {
+            alert("Please enter email with .edu domain");
+            return false;
+        } 
+        x = document.forms["contact_form"]["ques"].value;
+        if (x == "") {
+            alert("Question must be filled out");
+            return false;
+        }
+    }
+    </script>
 </div> <!-- End of contactUs -->

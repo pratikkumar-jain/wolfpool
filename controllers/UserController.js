@@ -2,7 +2,6 @@ var schedule = require('node-schedule');
 exports.createUser = function(req, res){
 
   var User = require('../models/user');
-  var nodemailer = require('nodemailer');
   var md5 = require('md5');
 
   // Check if all parameters are passed
@@ -28,31 +27,34 @@ exports.createUser = function(req, res){
           return res.render('500');
         } else {
 
-          // Code to send email with verification link
-          var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: 'sengncsu2018@gmail.com',
-              pass: 'SengNcsu'
-            }
-          });
+          // For local debugging
+          // var websitehost = 'http://localhost:3000';
+          var websitehost = 'http://wpool-dev.us-east-1.elasticbeanstalk.com';
 
-          var host = 'http://localhost:3000';
-          var mailOptions = {
-            from: 'support@wolfpool.com',
-            to: req.body.email,
-            subject: 'Wolfpool user verification',
-            html: '<h1>Please click on the <a href="' + host + '/verify_user/' + req.body.email + '/' + verfhash + '">link</a> to verify your account</h1>The link will expire in 24 hours'
-          };
+          // Configure the api
+          var mailjet = require('node-mailjet').connect(process.env.MJ_PUBLIC_KEY, process.env.MJ_PRIVATE_KEY)
 
-          transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-              console.log(error);
-            } else {
-              console.log('Email sent: ' + info.response);
+          var request = mailjet
+              .post("send")
+              .request({
+                  "FromEmail":"sengncsu2018@gmail.com",
+                  "FromName":"Wolfpool Support",
+                  "Subject":'Wolfpool user verification',
+                  "Html-part":'<h3>Please click on the <a href="' + websitehost + '/verify_user/' + req.body.email + '/' + verfhash + '">link</a> to verify your account</h3>The link will expire in 24 hours',
+                  "Recipients":[
+                    {
+                            "Email": req.body.email
+                    }
+                  ]
+              });
+
+          request
+          .then((result) => {
               return res.render('info_page',{data:'An email has been sent to you with verification link.'});
-            }
-          });
+          })
+          .catch((err) => {
+              console.log(err.statusCode)
+          })
         }
       });
 
@@ -125,8 +127,8 @@ exports.logoutUser = function(req, res, next){
 }
 
 var rule = new schedule.RecurrenceRule();
-rule.second = 42;
- 
+rule.hour = 0;
+
 var j = schedule.scheduleJob(rule, function(){
   console.log('Batch Executed');
   var Users = require('../models/user');
