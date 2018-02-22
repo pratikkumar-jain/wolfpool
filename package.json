@@ -22,7 +22,6 @@
     "e2e-test": "samples test deploy"
   },
   "dependencies": {
-    "aws-sdk": "^2.200.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0",
