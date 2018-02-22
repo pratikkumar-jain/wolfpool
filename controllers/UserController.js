@@ -50,7 +50,6 @@ exports.createUser = function(req, res){
 
           request
           .then((result) => {
-              console.log(result);
               return res.render('info_page',{data:'An email has been sent to you with verification link.'});
           })
           .catch((err) => {
@@ -128,11 +127,11 @@ exports.logoutUser = function(req, res, next){
 }
 
 var rule = new schedule.RecurrenceRule();
-rule.second = 42;
+rule.hour = 0;
 
 var j = schedule.scheduleJob(rule, function(){
   console.log('Batch Executed');
   var Users = require('../models/user');
   var query={"verified":false};  //add check for date>=24 hrs in past
-  //Users.find(query).remove().exec();
+  Users.find(query).remove().exec();
 });
