@@ -27,10 +27,13 @@ exports.createUser = function(req, res){
           return res.render('500');
         } else {
 
-          var websitehost = 'http://localhost:3000';
-          var websitehost = 'http://localhost:3000';
-          
-          var mailjet = require('node-mailjet').connect('c085fa507e095331306f61731ed41479', '9100f833f4a236f708e99a9a00be60fb')
+          // For local debugging
+          // var websitehost = 'http://localhost:3000';
+          var websitehost = 'http://wpool-dev.us-east-1.elasticbeanstalk.com';
+
+          // Configure the api
+          var mailjet = require('node-mailjet').connect(process.env.MJ_PUBLIC_KEY, process.env.MJ_PRIVATE_KEY)
+
           var request = mailjet
               .post("send")
               .request({
@@ -39,9 +42,9 @@ exports.createUser = function(req, res){
                   "Subject":'Wolfpool user verification',
                   "Html-part":'<h3>Please click on the <a href="' + websitehost + '/verify_user/' + req.body.email + '/' + verfhash + '">link</a> to verify your account</h3>The link will expire in 24 hours',
                   "Recipients":[
-                          {
-                                  "Email": req.body.email
-                          }
+                    {
+                            "Email": req.body.email
+                    }
                   ]
               });
 
