@@ -9,7 +9,7 @@ exports.savePlan = function(request, response){
                                   dest_long:request.body.lng[1],
                                   date:request.body.date,
                                   time:request.body.time,
-                                  vacancy:request.body.vacancy
+                                  no_of_people:request.body.no_of_people
                                 });
   		planData.save()
     .then(item => {
@@ -22,6 +22,9 @@ exports.savePlan = function(request, response){
 };
 
 exports.searchPlan = function(request, response){
+
+  // Show all existing plans that the user can join, along with an option to create
+
   userRequest = request.body
   console.log(userRequest)
   var Plan = require('../models/plan');
@@ -33,11 +36,11 @@ exports.searchPlan = function(request, response){
 
   var currSrc = {lat: userRequest.lat[0], lng: userRequest.lng[0]};
   var currDest = {lat: userRequest.lat[1], lng: userRequest.lng[1]};
-  var query={"vacancy":{$gt:0}}; //Data : {$gt:Date.now}
+  var query={"no_of_people":{$gt:0}}; //Data : {$gt:Date.now}
   Plan.find(query,(err,plans)=>{
-    if(err){
+    if(err) {
       response.status(500).send(err);
-    }else{
+    } else {
       console.log("found"+plans.length);
       var results=[];
       for(var i=0;i<plans.length;i++){
@@ -48,8 +51,11 @@ exports.searchPlan = function(request, response){
           results.push(plans[i]);
         }
       }
-      console.log("*********result "+results[0]);
-      response.status(400).send(results);
+      console.log("*********result "+results);
+      response.setHeader('Content-Type', 'application/json');
+      //response.send(JSON.stringify({ a: 1 }, null, 3));
+      response.send(JSON.stringify(results));
+      console.log("*********response render sent");
     }
   });
 };

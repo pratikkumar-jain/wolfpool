@@ -31,7 +31,20 @@ module.exports = function(app){
   app.get('/search_plan_page', function(req, res){
 		res.render('search_plan_page');
 	});
-  app.post('/searchPlan',PlanController.searchPlan);
+
+
+	app.post('/searchPlan',PlanController.searchPlan);
+	// app.post('/searchPlan', function(req, res){
+  //
+	// 	PlanController.searchPlan(req, res);
+  //
+	// 	//if (err) return res.sendStatus(500);
+  //
+  //
+	// 	console.log("inside search plan");
+	// 	//res.render('contact', { csrf: 'CSRF token here'});
+	// });
+
   app.get('/contact', function(req, res){
 		res.render('contact', { csrf: 'CSRF token here'});
 	});

@@ -12,8 +12,10 @@
 <h3>Create Plan</h3>
 </div>
 <div >
+<!--<form role="form"
+  action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">-->
 <form role="form"
-  action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
+  action="/savePlan" name="search_create_form" method="POST" id="form1">
 
 <div class="form-group">
     <label for="source_id" class="col-sm-2 control-label">
@@ -56,7 +58,7 @@
     Number of people: </label>
     <div class="col-sm-4">
       <input type="number" class="form-control" id="no_of_people_id"
-      name="vacancy">
+      name="no_of_people">
     </div>
   </div> <!-- End of form-group -->
 
@@ -84,7 +86,17 @@
     <input name="lng" type="text" value="" id="dest_long">
   </fieldset>
     <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
-    <div id="result"></div>
+
+		<div id="result">
+			<table id="resultTable" border="1" >
+	       <tr>
+	        <th width="5%">S.no</th>
+	        <th width="20%">Username</th>
+	        <th width="20%">Name</th>
+	        <th width="30%">Email</th>
+	       </tr>
+	    </table>
+		</div>
 
     <script>
       function validateForm() {
@@ -119,7 +131,7 @@
           alert("Please enter a valid time");
           return false;
         }
-        x = document.forms["search_create_form"]["vacancy"].value;
+        x = document.forms["search_create_form"]["no_of_people"].value;
         if (x == "") {
             alert("Please enter number of people");
             return false;
@@ -184,16 +196,28 @@
 </script>
 <script>
     function send(){
-     if(!validateForm())
-      return false;
+     // if(!validateForm())
+     //  return false;
+
 		 $.ajax({
 			type : "POST",
-				dataType : 'json',
-				data : $("#form1").serialize(),
+			dataType : 'json',
+			data : $("#form1").serialize(),
       url: "/searchPlan",
       async: false,
-      complete: function(data){
-      alert("Data Sent");
+      success: function(json_data){
+        var len = json_data.length;
+        for(var i=0; i<len; i++){
+					item = json_data[i];
+					//console.log((i+1) + " " + item);
+					var tr_str = "<tr>" +
+							"<td align='center'>" + (i+1) + "</td>" +
+							"<td align='center'>" + item.source_lat + "</td>" +
+							"<td align='center'>" + item.source_long + "</td>" +
+							"<td align='center'>" + item.no_of_people + "</td>" +
+							"</tr>";
+					$("#resultTable").append(tr_str);
+		    }
        },
      });
     }
