@@ -3,17 +3,14 @@
 	  margin-bottom: 10px;
 }
 </style>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=true&libraries=places&key=AIzaSyAhftsNX43-RM-L4GBYbjxjUWnOVNKPuFY"></script>
+<script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAhftsNX43-RM-L4GBYbjxjUWnOVNKPuFY"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="js/jquery.geocomplete.js"></script>
-
 
 <div class="page-header">
 <h3>Create Plan</h3>
 </div>
 <div >
-<form role="form"
-  action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
+<form role="form" action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
 
 <div class="form-group">
     <label for="source_id" class="col-sm-2 control-label">
@@ -56,7 +53,7 @@
     Number of people: </label>
     <div class="col-sm-4">
       <input type="number" class="form-control" id="no_of_people_id"
-      name="vacancy">
+      name="no_of_people">
     </div>
   </div> <!-- End of form-group -->
 
@@ -83,8 +80,25 @@
     <label>Longitude</label>
     <input name="lng" type="text" value="" id="dest_long">
   </fieldset>
-    <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
-    <div id="result"></div>
+    <div id="map_canvas" style="width: 600px; height: 400px;" ></div>
+
+		<div id="result">
+				<table id="resultTable" style="display:none;" border="1" >
+					<thead>
+					 <tr>
+						<th width="6.5%">No.</th>
+						<th width="8.5%">Source latitude</th>
+						<th width="8.5%">Source longitude</th>
+						<th width="8.5%">Destination latitude</th>
+						<th width="8.5%">Destination longitude</th>
+						<th width="8.5%">Date</th>
+						<th width="8.5%">Time</th>
+						<th width="8.5%">Number of people</th>
+						<th width="8.5%">Vacancy</th>
+					 </tr>
+				 </thead>
+				</table>
+		</div>
 
     <script>
       function validateForm() {
@@ -119,7 +133,7 @@
           alert("Please enter a valid time");
           return false;
         }
-        x = document.forms["search_create_form"]["vacancy"].value;
+        x = document.forms["search_create_form"]["no_of_people"].value;
         if (x == "") {
             alert("Please enter number of people");
             return false;
@@ -134,68 +148,120 @@
 </form>
 
 <script>
-  var options;
-      var currLat=0;
-      var currLong=0;
-    $( document ).ready(function() {
-          if (navigator.geolocation) {
-              console.log(navigator.geolocation.getCurrentPosition(showPosition));
-          } else {
-              alert("Geolocation is not supported by this browser.");
-          }
 
+	var currLat = 0;
+	var currLong = 0;
 
-  function showPosition(position) {
-    currLat = position.coords.latitude;
-    currLong = position.coords.longitude;
-    console.log(currLat);
-    console.log(currLong);
-    options = {
-          map: ".map_canvas",
-          details:".details_src",
-          location:[currLat,currLong]
-        };
-     $("#source_id").geocomplete(options);
-  }
+	var sourceObject;
+	var sourceAutocomplete;
 
-  $("#source_id").on("focus",function(){
-    options = {
-      map: ".map_canvas",
-      details:".details_src",
-      location:[$('input[name=lat]').val(),$('input[name=lng]').val()],
-      "mapOptions.zoom":18,
-      maxZoom:18
-    };
-    $(this).geocomplete(options);
-    console.log("src "+$('input[name=lat]').val()+" "+$('input[name=lng]').val());
-  });
+	var destinationAutocomplete;
+	var destinationObject;
 
-  $("#destination_id").on("focus",function(){
-    options = {
-      map: ".map_canvas",
-      details:".details_dest",
-      location:[$('input[name=lat]').val(),$('input[name=lng]').val()],
-      "mapOptions.zoom":18,
-    };
-    $(this).geocomplete(options);
-    console.log("dest "+$('input[name=lat]').val()+" "+$('input[name=lng]').val());
-  });
-});
-</script>
-<script>
-    function send(){
-     if(!validateForm())
-      return false;
-		 $.ajax({
+	var marker;
+
+	$(document).ready(function() {
+		if (navigator.geolocation) {
+			console.log(navigator.geolocation.getCurrentPosition(showPosition));
+		} else {
+			alert("Geolocation is not supported by this browser.");
+		}
+
+	  function showPosition(position) {
+	    currLat = position.coords.latitude;
+	    currLong = position.coords.longitude;
+
+			// Create Map
+			var map = new google.maps.Map(document.getElementById('map_canvas'), {
+				mapTypeControl: false,
+				center: {lat: currLat, lng: currLong},
+				zoom: 16
+			});
+
+			// Create marker to show on Map
+			var marker = new google.maps.Marker({
+				position: {lat: currLat, lng: currLong},
+				animation: google.maps.Animation.DROP,
+				map: map,
+			});
+
+			// Create and Bind inputs to Map
+			sourceAutocomplete = new google.maps.places.Autocomplete(document.getElementById('source_id'));
+	    destinationAutocomplete = new google.maps.places.Autocomplete(document.getElementById('destination_id'));
+
+			sourceAutocomplete.bindTo('bounds', map);
+			destinationAutocomplete.bindTo('bounds', map);
+
+			// Event listeners on place change
+			sourceAutocomplete.addListener('place_changed', function () {
+	        sourceObject = sourceAutocomplete.getPlace();
+					map.setCenter(sourceObject.geometry.location);
+					marker.setTitle('Source');
+					marker.setPosition(sourceObject.geometry.location);
+	    });
+
+			destinationAutocomplete.addListener('place_changed', function () {
+	        destinationObject = destinationAutocomplete.getPlace();
+					map.setCenter(destinationObject.geometry.location);
+					marker.setLabel('Destination');
+					marker.setPosition(destinationObject.geometry.location);
+	    });
+	  }
+	});
+
+  function send(){
+
+   	if(!validateForm())
+    	return false;
+
+		$('#source_lat').val(sourceObject.geometry.location.lat());
+		$('#source_long').val(sourceObject.geometry.location.lng());
+		$('#dest_lat').val(destinationObject.geometry.location.lat());
+		$('#dest_long').val(destinationObject.geometry.location.lng());
+
+		$.ajax({
 			type : "POST",
-				dataType : 'json',
-				data : $("#form1").serialize(),
-      url: "/searchPlan",
-      async: false,
-      complete: function(data){
-      alert("Data Sent");
-       },
-     });
-    }
+			dataType : 'json',
+			data : $("#form1").serialize(),
+			url: "/searchPlan",
+			async: false,
+			success: function(json_data){
+				if ($.trim(json_data)){
+
+					var already_there = $("#resultTable").is(':visible');
+					if (already_there) {
+						$('#resultTable tbody > tr').remove();
+					} else {
+						$("#resultTable").show();
+					}
+
+					var len = json_data.length;
+
+					for(var i=0; i<len; i++){
+						item = json_data[i];
+						var tr_str = "<tr>" +
+						"<td align='center'>" + (i+1) + "</td>" +
+						"<td align='center'>" + item.source_lat + "</td>" +
+						"<td align='center'>" + item.source_long + "</td>" +
+						"<td align='center'>" + item.dest_lat + "</td>" +
+						"<td align='center'>" + item.dest_long + "</td>" +
+						"<td align='center'>" + item.date + "</td>" +
+						"<td align='center'>" + item.time + "</td>" +
+						"<td align='center'>" + item.no_of_people + "</td>" +
+						"<td align='center'>" + (6 - item.no_of_people) + "</td>" +
+						"</tr>";
+						$("#resultTable").append(tr_str);
+					}
+				} else{
+					$('#resultTable tbody > tr').remove();
+					console.log("Empty JSON data received from PlanController");
+				}
+			},
+			error: function (request, status, error) {
+				alert(request.responseText);
+				console.log(request.responseText);
+			}
+		});
+  }
 </script>
 </div>
