@@ -12,17 +12,14 @@ module.exports = function(app){
   app.get('/', function(req, res){
   		res.render('login');
 	});
-  app.get('/home', function(req,res){
-  		res.render('home')
-  });
 	app.get('/about', function(req, res){
   		res.render('about');
 	});
 
 	// Routes related to Plan
-	app.get('/create_search_plan_page', function(req, res){
+	app.get('/home', function(req, res){
 		if (req.session && req.session.userId) {
-			res.render('create_search_plan_page');
+			res.render('home');
 		} else {
 			res.render('info_page',{data: 'You must be logged in to view this page. Back to ', name:'login', link:'login_page'});
 		}
