@@ -31,7 +31,8 @@ module.exports = function(app){
   app.get('/search_plan_page', function(req, res){
 		res.render('search_plan_page');
 	});
-  app.post('/searchPlan',PlanController.searchPlan);
+
+	app.post('/searchPlan',PlanController.searchPlan);
   app.get('/contact', function(req, res){
 		res.render('contact', { csrf: 'CSRF token here'});
 	});
