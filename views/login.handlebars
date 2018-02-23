@@ -1,21 +1,22 @@
-<form role="form" action="/loginUser" onsubmit="return validateForm()" name="login_form" method="POST" class="form-horizontal">
-  <div class="form-group">
-    <label for="emal_id" class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control" placeholder="abc@xyz.edu" id="emal_id" name="email">
+<div class="row">
+  <div class="col-lg-4 col-lg-offset-4 col-sm-12">
+    <form role="form" action="/loginUser" onsubmit="return validateForm()" name="login_form" method="POST" class="form-horizontal">
+      <div class="form-group">
+        <label for="emal_id">Email</label>
+        <input type="email" class="form-control" placeholder="abc@xyz.edu" id="emal_id" name="email">
+      </div>
+      <div class="form-group">
+        <label for="password_id">Password</label>
+        <input type="password" class="form-control" id="password_id" name="password">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default" id="submit_id" name="Register">Submit</button>
+      </div>
+      <div class="form-group">
+          <label>New User? <a href='/register_page'>Register</a></label>
+      </div>
     </div>
-    <label for="password_id" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-4">
-      <input type="password" class="form-control" id="password_id" name="password">
-    </div>
-  </div>
-  <div class="form-group"> 
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" id="submit_id" name="Register">Submit</button>
-    </div>
-  </div>
-  <label class="col-sm-2 control-label">New User?</label>
-  <label class="col-sm-1 control-label" OnClick="location.href = '/register_page';"><a>Register</a></label>
+  </form>
   <script>
       function validateForm() {
         var x = document.forms["login_form"]["email"].value;
@@ -26,7 +27,7 @@
         if (!x.endsWith(".edu")) {
             alert("Please enter email with .edu domain");
             return false;
-        } 
+        }
         x = document.forms["login_form"]["password"].value;
         if (x == "") {
             alert("Password must be filled out");
@@ -34,4 +35,4 @@
         }
     }
     </script>
-</form>
+</div>

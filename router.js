@@ -12,17 +12,14 @@ module.exports = function(app){
   app.get('/', function(req, res){
   		res.render('login');
 	});
-  app.get('/home', function(req,res){
-  		res.render('home')
-  });
 	app.get('/about', function(req, res){
   		res.render('about');
 	});
 
 	// Routes related to Plan
-	app.get('/create_search_plan_page', function(req, res){
+	app.get('/home', function(req, res){
 		if (req.session && req.session.userId) {
-			res.render('create_search_plan_page');
+			res.render('home');
 		} else {
 			res.render('info_page',{data: 'You must be logged in to view this page. Back to ', name:'login', link:'login_page'});
 		}
@@ -32,19 +29,7 @@ module.exports = function(app){
 		res.render('search_plan_page');
 	});
 
-
 	app.post('/searchPlan',PlanController.searchPlan);
-	// app.post('/searchPlan', function(req, res){
-  //
-	// 	PlanController.searchPlan(req, res);
-  //
-	// 	//if (err) return res.sendStatus(500);
-  //
-  //
-	// 	console.log("inside search plan");
-	// 	//res.render('contact', { csrf: 'CSRF token here'});
-	// });
-
   app.get('/contact', function(req, res){
 		res.render('contact', { csrf: 'CSRF token here'});
 	});
