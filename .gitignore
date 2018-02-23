@@ -1,6 +1,7 @@
 node_modules/*
 .DS_Store
 config.json
+se.pem
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
