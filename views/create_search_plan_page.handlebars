@@ -5,6 +5,8 @@
 </style>
 <script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAhftsNX43-RM-L4GBYbjxjUWnOVNKPuFY"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/fh-3.1.3/r-2.2.1/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/fh-3.1.3/r-2.2.1/datatables.min.js"></script>
 
 <div class="page-header">
 <h3>Create Plan</h3>
@@ -80,14 +82,11 @@
     <label>Longitude</label>
     <input name="lng" type="text" value="" id="dest_long">
   </fieldset>
-<<<<<<< HEAD
+
     <div id="map_canvas" style="width: 600px; height: 400px;" ></div>
-=======
-    <div class="map_canvas" style="width: 600px; height: 400px;" ></div>
->>>>>>> 4a3ddcb3a9e3e1bb80aae597bc638124fd0d41d6
 
 		<div id="result">
-				<table id="resultTable" style="display:none;" border="1" >
+				<table id="resultTable" style="display:none;" class="table table-striped table-bordered table-dark" cellspacing="0" width="100%" border="1" >
 					<thead>
 					 <tr>
 						<th width="6.5%">No.</th>
@@ -146,6 +145,12 @@
             alert("Please enter valid number of people");
             return false;
         }
+
+				$('#source_lat').val(sourceObject.geometry.location.lat());
+				$('#source_long').val(sourceObject.geometry.location.lng());
+				$('#dest_lat').val(destinationObject.geometry.location.lat());
+				$('#dest_long').val(destinationObject.geometry.location.lng());
+
         return true;
     }
 </script>
@@ -187,6 +192,7 @@
 				position: {lat: currLat, lng: currLong},
 				animation: google.maps.Animation.DROP,
 				map: map,
+				label: "Current Location"
 			});
 
 			// Create and Bind inputs to Map
@@ -200,7 +206,7 @@
 			sourceAutocomplete.addListener('place_changed', function () {
 	        sourceObject = sourceAutocomplete.getPlace();
 					map.setCenter(sourceObject.geometry.location);
-					marker.setTitle('Source');
+					marker.setLabel('Source');
 					marker.setPosition(sourceObject.geometry.location);
 	    });
 
@@ -217,11 +223,6 @@
 
    	if(!validateForm())
     	return false;
-
-		$('#source_lat').val(sourceObject.geometry.location.lat());
-		$('#source_long').val(sourceObject.geometry.location.lng());
-		$('#dest_lat').val(destinationObject.geometry.location.lat());
-		$('#dest_long').val(destinationObject.geometry.location.lng());
 
 		$.ajax({
 			type : "POST",
@@ -256,6 +257,7 @@
 						"</tr>";
 						$("#resultTable").append(tr_str);
 					}
+					$('#resultTable').DataTable();
 				} else{
 					$('#resultTable tbody > tr').remove();
 					console.log("Empty JSON data received from PlanController");
