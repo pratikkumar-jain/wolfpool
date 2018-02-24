@@ -19,7 +19,8 @@ var planSchema = new mongoose.Schema({
   	format: '00:00'
   },
   no_of_people: Number,
-  vacancy: Number
+  vacancy: Number,
+  emails: [String]
 });
 
 module.exports = mongoose.model('Plan', planSchema);
