@@ -1,5 +1,7 @@
 var geolib=require('geolib');
 var haversine = require('haversine-distance');
+var Plan = require('../models/plan');
+
 exports.savePlan = function(request, response){
 
     var planModel = require('../models/plan')
@@ -9,7 +11,8 @@ exports.savePlan = function(request, response){
                                   dest_long:request.body.lng[1],
                                   date:request.body.date,
                                   time:request.body.time,
-                                  no_of_people:request.body.no_of_people
+                                  no_of_people:request.body.no_of_people,
+                                  emails:[request.session.userEmail]
                                 });
   		planData.save()
     .then(item => {
@@ -21,13 +24,38 @@ exports.savePlan = function(request, response){
     });
 };
 
+exports.joinPlan = function(request, response) {
+
+  var planId = request.body.selectedPlan;
+  var numberOfPeople = request.body.numberOfPeople;
+
+  Plan.findById(planId, function (err, plans) {
+    if(err) {
+        response.status(500).send("The plan you selected got full. Please search again.");
+    }
+    else {
+        plans.emails.push(request.session.userEmail);
+        plans.vacancy = plans.no_of_people - numberOfPeople;
+        // Change this to plans.vacancy - numberOfPeople as follows:
+        // plans.vacancy = plans.vacancy - numberOfPeople;
+        plans.save();
+
+        // TO DO: Send email to add users in list that current user joined plan
+
+        response.setHeader('Content-Type', 'application/text');
+        response.send("/home");
+    }
+  });
+
+}
+
 exports.searchPlan = function(request, response){
 
   // Show all existing plans that the user can join, along with an option to create
 
   userRequest = request.body
   console.log(userRequest)
-  var Plan = require('../models/plan');
+
   console.log("************ search plan");
   console.log("source lat: "+userRequest.lat[0]);
   console.log("source long: "+userRequest.lng[0]);
