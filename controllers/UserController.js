@@ -107,6 +107,7 @@ exports.loginUser = function(req, res){
         return next(err);
       } else {
         req.session.userId = user._id;
+        req.session.userEmail = req.body.email;
         return res.redirect('/home');
       }
     });
