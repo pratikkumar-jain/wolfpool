@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container">
+  <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only"></span>
@@ -14,7 +14,17 @@
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
         <li><a href="/profile_page">Profile</a></li>
-        <li><a href="/logout_page">Logout</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        {{#if user}}
+         <a href=/logout_page><span class="glyphicon glyphicon-log-out">
+         </span> Logout</a>
+         {{else}}
+         <a href=/><span class="glyphicon glyphicon-log-in">
+         </span> Login</a>
+        {{/if}}
+        </li>
       </ul>
     </div>
   </div>
