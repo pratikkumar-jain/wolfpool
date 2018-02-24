@@ -39,19 +39,9 @@ module.exports = function(app){
 		}
 	});
 	// app.post('/savePlan',PlanController.savePlan);
-	app.get('/search_plan_page', function(req, res){
-		res.render('search_plan_page');
-	});
+	
 	app.get('/contact', function(req, res){
 		res.render('contact', { csrf: 'CSRF token here'});
-	});
-	app.get('/search_plan_page', function(req, res){
-		res.render('search_plan_page');
-	});
-	app.get('/profile_page', function(req, res){
-		res.render('profile_page');
-		//res.render('profile_page',{success:false, errors: req.session.errors});
-		//req.session.errors=null;
 	});
 	app.get('/register_page', function(req, res){
 		res.render('register');
