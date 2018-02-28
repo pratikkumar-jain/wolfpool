@@ -17,7 +17,7 @@
     "start": "node app.js",
     "lint": "samples lint",
     "pretest": "npm run lint",
-    "test": "npm run system-test",
+    "test": "npm run system-test"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
