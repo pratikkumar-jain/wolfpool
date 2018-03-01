@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-lg-4">
 
-		<form role="form" action="/savePlan" onsubmit="return !!(validateForm() & confirm('Do you really want to submit the form?'));" name="search_create_form" method="POST" id="form1">
+		<form role="form" action="/savePlan" onsubmit="return !!(validateForm() && confirm('Are you sure you want to create a new plan?'));" name="search_create_form" method="POST" id="form1">
 
 			<div class="form-group">
 			    <label for="source_id">Source <a id="source_umcl">use my current location</a></label>
