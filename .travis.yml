@@ -6,6 +6,8 @@ deploy:
   app: "wpool"
   env: "wpool-dev"
   bucket_name: "elasticbeanstalk-us-east-1-653250623557"
+  on:
+    branch: wolfpool_dev
 language: node_js
 node_js:
   - "6.11.5"
