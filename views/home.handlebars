@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-lg-4">
 
-		<form role="form" action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
+		<form role="form" action="/savePlan" onsubmit="return !!(validateForm() & confirm('Do you really want to submit the form?'));" name="search_create_form" method="POST" id="form1">
 
 			<div class="form-group">
 			    <label for="source_id">Source <a id="source_umcl">use my current location</a></label>
@@ -75,8 +75,10 @@
  					<th>No.</th>
 					<th>Source latitude</th>
 					<th>Source longitude</th>
+					<th>Distance from Source (in miles)</th>
 					<th>Destination latitude</th>
 					<th>Destination longitude</th>
+					<th>Distance from Destination (in miles)</th>
 					<th>Date</th>
 					<th>Time</th>
 					<th>Number of people</th>
@@ -228,7 +230,6 @@
 	}
 
   function send(){
-
    	if(!validateForm())
     	return false;
 
@@ -258,8 +259,10 @@
 						"<td align='center'>" + (i+1) + "</td>" +
 						"<td align='center'>" + item.source_lat + "</td>" +
 						"<td align='center'>" + item.source_long + "</td>" +
+						"<td align='center'>" + item.src_distance + "</td>" +
 						"<td align='center'>" + item.dest_lat + "</td>" +
 						"<td align='center'>" + item.dest_long + "</td>" +
+						"<td align='center'>" + item.dest_distance + "</td>" +
 						"<td align='center'>" + item.date + "</td>" +
 						"<td align='center'>" + item.time + "</td>" +
 						"<td align='center'>" + item.no_of_people + "</td>" +
