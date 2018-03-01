@@ -79,8 +79,8 @@ exports.searchPlan = function(request, response){
         var optionDest = {lat:plans[i].dest_lat,lng:plans[i].dest_long};
         //console.log("dist "+haversine(currSrc, optionSrc));
         if(haversine(currSrc, optionSrc)<2000 && haversine(currDest, optionDest)<2000){
-          plans[i].distance=Math.round(haversine(currSrc, optionSrc)*0.000621371*100)/100; //to calculate the distance in miles
-          console.log("******************dist"+plans[i].distance);
+          plans[i].src_distance=Math.round(haversine(currSrc, optionSrc)*0.000621371*100)/100; //to calculate the distance in miles
+          plans[i].dest_distance=Math.round(haversine(currDest, optionDest)*0.000621371*100)/100; //to calculate the distance in miles
           results.push(plans[i]);
         }
       }
