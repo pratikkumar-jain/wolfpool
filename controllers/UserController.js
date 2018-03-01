@@ -128,7 +128,7 @@ exports.logoutUser = function(req, res, next){
 }
 
 var rule = new schedule.RecurrenceRule();
-rule.hour = 0;
+rule.hour = 4;
 
 var j = schedule.scheduleJob(rule, function(){
   console.log('Batch Executed');

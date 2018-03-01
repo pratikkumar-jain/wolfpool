@@ -19,6 +19,7 @@ var planSchema = new mongoose.Schema({
   	format: '00:00'
   },
   no_of_people: Number,
+  distance: Number,
   vacancy: Number,
   emails: [String]
 });

@@ -61,10 +61,13 @@ exports.searchPlan = function(request, response){
   console.log("source long: "+userRequest.lng[0]);
   console.log("dest lat: "+userRequest.lat[1]);
   console.log("dest long: "+userRequest.lng[1]);
+  console.log("date : "+userRequest.date);
+  console.log("time : "+userRequest.time);
 
   var currSrc = {lat: userRequest.lat[0], lng: userRequest.lng[0]};
   var currDest = {lat: userRequest.lat[1], lng: userRequest.lng[1]};
-  var query={"no_of_people":{$gt:0}}; //Data : {$gt:Date.now}
+  var query={"date":{$gte:userRequest.date},"time":{$gte:userRequest.time},"emails":{$ne : request.session.userEmail}}; //Data : {$gt:Date.now}
+  //var query={"no_of_people":{$gt:0}}; //Data : {$gt:Date.now}
   Plan.find(query,(err,plans)=>{
     if(err) {
       response.status(500).send(err);
@@ -75,7 +78,7 @@ exports.searchPlan = function(request, response){
         var optionSrc = {lat:plans[i].source_lat,lng:plans[i].source_long};
         var optionDest = {lat:plans[i].dest_lat,lng:plans[i].dest_long};
         console.log("dist "+haversine(currSrc, optionSrc));
-        if(haversine(currSrc, optionSrc)<3000 && haversine(currDest, optionDest)<3000){ //specifying distance should be <3000 metres
+        if(haversine(currSrc, optionSrc)<2000 && haversine(currDest, optionDest)<2000){ //specifying distance should be <3000 metres
           results.push(plans[i]);
         }
       }
