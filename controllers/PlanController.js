@@ -43,7 +43,7 @@ exports.joinPlan = function(request, response) {
         // Send email to users in list that current user joined plan
         var emails = [];
         plan.emails.forEach(function(email){
-          if (email.localCompare(request.session.userEmail) != 0){
+          if (email != request.session.userEmail){
             emails.push({'Email': email});
           }
         });
