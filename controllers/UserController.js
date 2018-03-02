@@ -53,6 +53,16 @@ exports.createUser = function(req, res){
               return res.render('info_page',{data:'An email has been sent to you with verification link.'});
           })
           .catch((err) => {
+              console.log("**********in email error "+user._id);
+              User.remove({"_id":user._id},function(err){
+                  if(err){
+                    console.log("error in deleting user"+err);
+                    return res.render('500');
+                  }
+                  else{
+                    return res.render('info_page',{data: 'There was an unexpected error in registraion. Please click here to Register again ', name:'Register', link:'register_page'});
+                  }
+              });
               console.log(err.statusCode)
           })
         }
