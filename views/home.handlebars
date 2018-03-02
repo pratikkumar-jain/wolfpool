@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-lg-4">
 
-		<form role="form" action="/savePlan" onsubmit="return validateForm()" name="search_create_form" method="POST" id="form1">
+		<form role="form" action="/savePlan" onsubmit="return !!(validateForm() && confirm('Are you sure you want to create a new plan?'));" name="search_create_form" method="POST" id="form1">
 
 			<div class="form-group">
 			    <label for="source_id">Source <a id="source_umcl">use my current location</a></label>
@@ -70,18 +70,27 @@
 			<table id="resultTable" style="display:none;" class="table table-striped table-bordered table-dark" cellspacing="0" width="100%" border="1">
 				<thead>
 				 <tr>
-					<th width="6.5%">No.</th>
-					<th width="8.5%">Source latitude</th>
-					<th width="8.5%">Source longitude</th>
-					<th width="8.5%">Destination latitude</th>
-					<th width="8.5%">Destination longitude</th>
-					<th width="8.5%">Date</th>
-					<th width="8.5%">Time</th>
-					<th width="8.5%">Number of people</th>
-					<th width="8.5%">Vacancy</th>
+					<th></th>
+ 					<th hidden="true"></th>
+ 					<th>No.</th>
+					<th>Source latitude</th>
+					<th>Source longitude</th>
+					<th>Distance from Source (in miles)</th>
+					<th>Destination latitude</th>
+					<th>Destination longitude</th>
+					<th>Distance from Destination (in miles)</th>
+					<th>Date</th>
+					<th>Time</th>
+					<th>Number of people</th>
+					<th>Vacancy</th>
 				 </tr>
 			 </thead>
 			</table>
+
+			<div class="form-group">
+					<button type="button" onclick="return joinPlan()" class="btn btn-primary">Join Plan</button>
+			</div>
+
 	</div>
 </div>
 
@@ -183,8 +192,44 @@
     });
 	});
 
-  function send(){
+	function joinPlan() {
 
+		var plans = document.getElementsByName("similar_plans");
+		var selectedPlan;
+		for(var i = 0; i < plans.length; i++) {
+			if(plans[i].checked == true) {
+				selectedPlan = plans[i].id;
+				break;
+			}
+		}
+
+		if (selectedPlan) {
+				$.ajax({
+					type : "POST",
+					dataType : 'text',
+					data : {"numberOfPeople": document.getElementById("no_of_people_id").value, "selectedPlan":selectedPlan},
+					url: "/joinPlan",
+					async: true,
+					success: function(data) {
+		        if (data) {
+		            window.location.href = data;
+		        }
+		        else {
+		            alert("There was an error, please refresh and try again.");
+		        }
+		    	},
+					error: function (request, status, error) {
+						alert(error);
+						console.log(error);
+					}
+				});
+			}
+		else {
+			alert("Please select a plan");
+		}
+	}
+
+  function send(){
    	if(!validateForm())
     	return false;
 
@@ -209,11 +254,15 @@
 					for(var i=0; i<len; i++){
 						item = json_data[i];
 						var tr_str = "<tr>" +
+						"<td align='center'></td>" +
+						"<td align='center' hidden='true'>" + item._id + "</td>" +
 						"<td align='center'>" + (i+1) + "</td>" +
 						"<td align='center'>" + item.source_lat + "</td>" +
 						"<td align='center'>" + item.source_long + "</td>" +
+						"<td align='center'>" + item.src_distance + "</td>" +
 						"<td align='center'>" + item.dest_lat + "</td>" +
 						"<td align='center'>" + item.dest_long + "</td>" +
+						"<td align='center'>" + item.dest_distance + "</td>" +
 						"<td align='center'>" + item.date + "</td>" +
 						"<td align='center'>" + item.time + "</td>" +
 						"<td align='center'>" + item.no_of_people + "</td>" +
@@ -221,9 +270,29 @@
 						"</tr>";
 						$("#resultTable").append(tr_str);
 					}
-					$('#resultTable').DataTable();
+					$('#resultTable').DataTable(
+						{
+						        columnDefs: [ {
+						            orderable: false,
+												render: function(data, type, full, meta){
+
+												   if(type === 'display'){
+												      data = '<input type="radio" name="similar_plans" id="'+full.toString().split(',')[1]+'" value="' + data + '">';
+												   }
+												   return data;
+												},
+						            targets:   0
+						        } ],
+						        select: {
+						            style:    'os',
+						            selector: 'td:first-child'
+						        },
+						        order: [[ 1, 'asc' ]]
+						    }
+					);
 				} else{
 					$('#resultTable tbody> tr').remove();
+					alert("No results found. Please create a plan.");
 					console.log("Empty JSON data received from PlanController");
 				}
 			},

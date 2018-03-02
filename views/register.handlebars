@@ -1,55 +1,64 @@
-<form role="form" action="/createUser" onsubmit="return validateForm()" name="register_form" method="POST">
-  <div class="form-group">
-    <label for="name_id" class="col-sm-2 control-label">Name</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="name_id" name="name">
-    </div>
-    <label for="email_id" class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-4">
-      <input type="email" placeholder="abc@xyz.edu" class="form-control" id="email_id" name="email">
-    </div>
-    <label for="password_id" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-4">
-      <input type="password" class="form-control" id="password_id" name="password">
-    </div>
-    <label for="cnf_password_id" class="col-sm-2 control-label">Confirm Password</label>
-    <div class="col-sm-4">
-      <input type="password" class="form-control" id="cnf_password_id" name="cnf_password">
-    </div>
+<div class="row">
+  <div class="page-header">
+    <h1 align="center"><small>Welcome</small></h1>
   </div>
-  <div class="col-sm-4">
-    <input type="submit" class="form-control" id="submit_id" name="Register">
+</div>
+
+<div class="row">
+  <div class="col-lg-4 col-lg-offset-4 col-sm-4 col-xs-8 col-xs-offset-2">
+    <form role="form" action="/createUser" onsubmit="return validateForm()" name="register_form" method="POST" class="form-horizontal">
+      <div class="form-group">
+        <label for="name_id">Name</label>
+          <input type="text" class="form-control" id="name_id" name="name">
+      </div>
+      <div class="form-group">
+        <label for="email_id">Email</label>
+          <input type="email" placeholder="abc@xyz.edu" class="form-control" id="email_id" name="email">
+      </div>
+      <div class="form-group">
+        <label for="password_id">Password</label>
+          <input type="password" class="form-control" id="password_id" name="password">
+      </div>
+      <div class="form-group">
+        <label for="cnf_password_id">Confirm Password</label>
+          <input type="password" class="form-control" id="cnf_password_id" name="cnf_password">
+
+      </div>
+      <div class="form-group">
+          <input type="submit" class="btn btn-default" id="submit_id" value="Register" name="Register">
+      </div>
+      <script>
+          function validateForm() {
+            var x = document.forms["register_form"]["name"].value;
+            if (x == "") {
+                alert("Name must be filled out");
+                return false;
+            }
+            x = document.forms["register_form"]["password"].value;
+            if (x == "") {
+                alert("Password must be filled out");
+                return false;
+            }
+            var y = document.forms["register_form"]["cnf_password"].value;
+            if (y == "") {
+                alert("Confirm password must be filled out");
+                return false;
+            }
+            if(x!=y){
+               alert("Both the passwords should be the same");
+               return false;
+            }
+            x = document.forms["register_form"]["email"].value;
+            if (x == "") {
+                alert("Email must be filled out");
+                return false;
+            }
+            if (!x.endsWith(".edu")) {
+                alert("Please enter email with .edu domain");
+                return false;
+            } 
+        }
+        </script>
+    </form>
   </div>
-  <script>
-      function validateForm() {
-        var x = document.forms["register_form"]["name"].value;
-        if (x == "") {
-            alert("Name must be filled out");
-            return false;
-        }
-        x = document.forms["register_form"]["password"].value;
-        if (x == "") {
-            alert("Password must be filled out");
-            return false;
-        }
-        var y = document.forms["register_form"]["cnf_password"].value;
-        if (y == "") {
-            alert("Confirm password must be filled out");
-            return false;
-        }
-        if(x!=y){
-           alert("Both the passwords should be the same");
-           return false;
-        }
-        x = document.forms["register_form"]["email"].value;
-        if (x == "") {
-            alert("Email must be filled out");
-            return false;
-        }
-        if (!x.endsWith(".edu")) {
-            alert("Please enter email with .edu domain");
-            return false;
-        } 
-    }
-    </script>
-</form>
+</div>

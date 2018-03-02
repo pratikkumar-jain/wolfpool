@@ -13,13 +13,7 @@
     "node": ">=4.3.2"
   },
   "scripts": {
-    "deploy": "eb deploy",
-    "start": "node app.js",
-    "lint": "samples lint",
-    "pretest": "npm run lint",
-    "system-test": "samples test app",
-    "test": "npm run system-test",
-    "e2e-test": "samples test deploy"
+    "start": "node app.js"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
