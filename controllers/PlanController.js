@@ -29,18 +29,45 @@ exports.joinPlan = function(request, response) {
   var planId = request.body.selectedPlan;
   var numberOfPeople = request.body.numberOfPeople;
 
-  Plan.findById(planId, function (err, plans) {
+  Plan.findById(planId, function (err, plan) {
     if(err) {
         response.status(500).send("The plan you selected got full. Please search again.");
     }
     else {
-        plans.emails.push(request.session.userEmail);
-        plans.vacancy = plans.no_of_people - numberOfPeople;
-        // Change this to plans.vacancy - numberOfPeople as follows:
-        // plans.vacancy = plans.vacancy - numberOfPeople;
-        plans.save();
+        plan.emails.push(request.session.userEmail);
+        plan.vacancy = plan.no_of_people - numberOfPeople;
+        // Change this to plan.vacancy - numberOfPeople as follows:
+        // plan.vacancy = plan.vacancy - numberOfPeople;
+        plan.save();
 
-        // TO DO: Send email to add users in list that current user joined plan
+        // Send email to users in list that current user joined plan
+        var emails = [];
+        plan.emails.forEach(function(email){
+          if (email.localCompare(request.session.userEmail) != 0){
+            emails.push({'Email': email});
+          }
+        });
+        console.log(emails);
+        // Configure the api
+        var mailjet = require('node-mailjet').connect(process.env.MJ_PUBLIC_KEY, process.env.MJ_PRIVATE_KEY)
+
+        var mj_req = mailjet
+            .post("send")
+            .request({
+                "FromEmail":"sengncsu2018@gmail.com",
+                "FromName":"Wolfpool Support",
+                "Subject":'Someone just joined your wolfpool plan!',
+                "Html-part": request.session.userName + ' just joined your trip with details listed below. You can get in touch with the email: ' + request.session.userEmail + '.\nTrip details:\nSource: '+plan.source_lat+'\nDestination:'+plan.dest_lat+'\nDate:'+plan.date+'\nTime:'+plan.time,
+                "Recipients": emails
+            });
+
+        mj_req
+        .then((result) => {
+            return res.render('info_page',{data:'An email notification has been to your trip buddies.'});
+        })
+        .catch((err) => {
+            console.log(err.statusCode)
+        })
 
         response.setHeader('Content-Type', 'application/text');
         response.send("/home");
