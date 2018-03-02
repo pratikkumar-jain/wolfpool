@@ -94,7 +94,7 @@ exports.verifyUser = function(req, res){
             if (err) {
                 console.log('Error log: ' + err)
             } else {
-                res.render('info_page',{data:'Account Verified. Search for ',name:'plans', link:'create_search_plan_page'});
+                res.render('info_page',{data:'Account Verified. Search for ',name:'plans', link:'home'});
             }
           }
         )
