@@ -86,8 +86,10 @@ exports.searchPlan = function(request, response){
   console.log(userRequest)
 
   console.log("************ search plan");
+  console.log("source: "+userRequest.source);
   console.log("source lat: "+userRequest.lat[0]);
   console.log("source long: "+userRequest.lng[0]);
+  console.log("destination: "+userRequest.destination);
   console.log("dest lat: "+userRequest.lat[1]);
   console.log("dest long: "+userRequest.lng[1]);
   console.log("date : "+userRequest.date);

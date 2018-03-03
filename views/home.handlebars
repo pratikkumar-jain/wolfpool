@@ -111,7 +111,7 @@
 	var geocoder = new google.maps.Geocoder;
 	
 	$(document).ready(function() {
-		document.getElementById("create_btn").style.display='none';
+		document.getElementById("create_btn").style.visibility='hidden';
 		if (navigator.geolocation) {
 			console.log(navigator.geolocation.getCurrentPosition(showPosition));
 		} else {
@@ -295,8 +295,7 @@
 				} else{
 					$('#resultTable tbody> tr').remove();
 					alert("No results found. Please create a plan.");
-					document.getElementById("similar_btn").style.display='none';
-					document.getElementById("create_btn").style.display='block';
+					document.getElementById("create_btn").style.visibility='visible';
 					console.log("Empty JSON data received from PlanController");
 				}
 			},
