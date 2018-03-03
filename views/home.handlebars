@@ -10,16 +10,6 @@
 		<form role="form" action="/savePlan" onsubmit="return !!(validateForm() && confirm('Are you sure you want to create a new plan?'));" name="search_create_form" method="POST" id="form1">
 
 			<div class="form-group">
-			    <label for="source_id">Source <a id="source_umcl">use my current location</a></label>
-					<input type="text" class="form-control" id="source_id" name="source" placeholder="Enter Source Address">
-			</div>
-
-			<div class="form-group">
-					<label for="destination_id">Destination <a id="destination_umcl">use my current location</a></label>
-					<input type="text" class="form-control" id="destination_id" name="destination" placeholder="Enter Destination Address">
-			</div>
-
-			<div class="form-group">
 			    <label for="date_id">Date</label>
 			    <input type="date" class="form-control" id="date_id" name="date">
 			</div>
@@ -27,6 +17,16 @@
 			<div class="form-group">
 			    <label for="time_id">Time</label>
 			    <input type="time" class="form-control" id="time_id" name="time">
+			</div>
+
+			<div class="form-group">
+			    <label for="source_id">Source <a id="source_umcl">use my current location</a></label>
+					<input type="text" class="form-control" id="source_id" name="source" placeholder="Enter Source Address">
+			</div>
+
+			<div class="form-group">
+					<label for="destination_id">Destination <a id="destination_umcl">use my current location</a></label>
+					<input type="text" class="form-control" id="destination_id" name="destination" placeholder="Enter Destination Address">
 			</div>
 
 			<div class="form-group">
@@ -80,7 +80,7 @@
 					<th>Destination longitude</th>
 					<th>Distance from Destination (in miles)</th>
 					<th>Date</th>
-					<th>Time</th>
+					<th>Time (24 hour format)</th>
 					<th>Number of people</th>
 					<th>Vacancy</th>
 				 </tr>
@@ -253,6 +253,7 @@
 
 					for(var i=0; i<len; i++){
 						item = json_data[i];
+						var date_str = item.date.split("T");
 						var tr_str = "<tr>" +
 						"<td align='center'></td>" +
 						"<td align='center' hidden='true'>" + item._id + "</td>" +
@@ -263,7 +264,7 @@
 						"<td align='center'>" + item.dest_lat + "</td>" +
 						"<td align='center'>" + item.dest_long + "</td>" +
 						"<td align='center'>" + item.dest_distance + "</td>" +
-						"<td align='center'>" + item.date + "</td>" +
+						"<td align='center'>" + date_str[0] + "</td>" +
 						"<td align='center'>" + item.time + "</td>" +
 						"<td align='center'>" + item.no_of_people + "</td>" +
 						"<td align='center'>" + (6 - item.no_of_people) + "</td>" +
