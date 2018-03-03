@@ -23,8 +23,8 @@ exports.createUser = function(req, res){
       //use schema.create to insert data into the db
       User.create(userData, function (err, user) {
         if (err) {
+          return res.render('info_page',{data:'Your email is already registered. You can login ',name:'here', link:'login_page'});
           console.log(err);
-          return res.render('500');
         } else {
 
           // For local debugging
