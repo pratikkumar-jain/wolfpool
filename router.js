@@ -28,7 +28,7 @@ module.exports = function(app){
 		if (req.session && req.session.userId) {
 			res.render('home');
 		} else {
-			res.render('info_page',{data: 'You must be logged in to view this page. Back to ', name:'login', link:'login_page'});
+			res.render('login');
 		}
 	});
 	app.get('/profile_page', function(req, res){
@@ -39,7 +39,7 @@ module.exports = function(app){
 		}
 	});
 	// app.post('/savePlan',PlanController.savePlan);
-	
+
 	app.get('/contact', function(req, res){
 		res.render('contact', { csrf: 'CSRF token here'});
 	});
@@ -79,11 +79,11 @@ module.exports = function(app){
 	// app.post('/profile_page', function(req, res){
 	// 	res.redirect('/profile_page');
 	// });
-	
+
 
 	// Routes related to User
-	
-	
+
+
 	// app.get('/register_page', function(req, res){
 	// 		res.render('register');
 	// });
