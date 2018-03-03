@@ -35,8 +35,8 @@
 			</div>
 
 		  <div class="form-group">
-		      <button type="button" onclick="return send()" class="btn btn-primary">View Similar Plans</button>
-					<button type="submit" class="btn btn-default">Create a new Plan</button>
+		      <button type="button" onclick="return send()" class="btn btn-primary" id="similar_btn">View Similar Plans</button>
+					<button type="submit" class="btn btn-default" id="create_btn">Create a new Plan</button>
 		  </div>
 
 			<fieldset class="details_src" hidden="true">
@@ -109,8 +109,9 @@
 	var map;
 
 	var geocoder = new google.maps.Geocoder;
-
+	
 	$(document).ready(function() {
+		document.getElementById("create_btn").style.display='none';
 		if (navigator.geolocation) {
 			console.log(navigator.geolocation.getCurrentPosition(showPosition));
 		} else {
@@ -294,6 +295,8 @@
 				} else{
 					$('#resultTable tbody> tr').remove();
 					alert("No results found. Please create a plan.");
+					document.getElementById("similar_btn").style.display='none';
+					document.getElementById("create_btn").style.display='block';
 					console.log("Empty JSON data received from PlanController");
 				}
 			},
