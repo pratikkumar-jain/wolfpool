@@ -84,7 +84,7 @@ exports.verifyUser = function(req, res){
       if (err) {
         return res.render('500')
       } else if (!user) {
-        console.log('User not found.');
+        console.log('User not found!');
         return res.render('404');
       } else {
         User.update(
@@ -114,7 +114,8 @@ exports.loginUser = function(req, res){
       if (error || !user) {
         var err = new Error('Wrong email or password.');
         err.status = 401;
-        return next(err);
+        res.render('info_page',{data:'Invalid credentials. If you\'ve already registered then please check for verification link in your inbox. Else, register ', name:'here', link:'register_page'});
+        // return next(err);
       } else {
         req.session.userId = user._id;
         req.session.userName = user.name;
