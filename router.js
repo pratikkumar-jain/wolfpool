@@ -41,6 +41,10 @@ module.exports = function(app){
 	// app.post('/savePlan',PlanController.savePlan);
 
 	app.get('/profile_page', UserController.getProfile);
+	app.get('/plans_page', function(req, res){
+		res.render('plans_page');
+	});
+	app.get('/get_plans', PlanController.getPlans);
 	app.get('/contact', function(req, res){
 		res.render('contact', { csrf: 'CSRF token here'});
 	});

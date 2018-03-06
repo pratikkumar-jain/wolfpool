@@ -26,6 +26,14 @@ exports.savePlan = function(request, response){
     });
 };
 
+
+exports.getPlans = function(request, response){
+
+  Plan.find({"emails":request.session.userEmail},function(err,planslist){
+        response.send(planslist);  
+  });
+};
+
 exports.joinPlan = function(request, response) {
 
   var planId = request.body.selectedPlan;
