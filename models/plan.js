@@ -9,6 +9,8 @@ var planSchema = new mongoose.Schema({
   source_long: String,
   dest_lat: String,
   dest_long: String,
+  src_address: String,
+  dest_address: String,
   date: {
   	type: Date,
   	format: 'YYYY-MM-DD'
