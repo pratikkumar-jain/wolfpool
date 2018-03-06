@@ -5,6 +5,8 @@ function time_format (time) {
 }
 
 var planSchema = new mongoose.Schema({
+  source_id: String,
+  destination_id: String,
   source_lat: String,
   source_long: String,
   dest_lat: String,

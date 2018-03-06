@@ -5,7 +5,9 @@ var Plan = require('../models/plan');
 exports.savePlan = function(request, response){
 
     var planModel = require('../models/plan')
-    var planData = new planModel({source_lat:request.body.lat[0],
+    var planData = new planModel({source_id:request.body.source,
+                                  destination_id:request.body.destination,
+                                  source_lat:request.body.lat[0],
                                   source_long:request.body.lng[0],
                                   dest_lat:request.body.lat[1],
                                   dest_long:request.body.lng[1],
@@ -86,13 +88,14 @@ exports.searchPlan = function(request, response){
   console.log(userRequest)
 
   console.log("************ search plan");
+  console.log("source: "+userRequest.source);
   console.log("source lat: "+userRequest.lat[0]);
   console.log("source long: "+userRequest.lng[0]);
+  console.log("destination: "+userRequest.destination);
   console.log("dest lat: "+userRequest.lat[1]);
   console.log("dest long: "+userRequest.lng[1]);
   console.log("date : "+userRequest.date);
   console.log("time : "+userRequest.time);
-
   var currSrc = {lat: userRequest.lat[0], lng: userRequest.lng[0]};
   var currDest = {lat: userRequest.lat[1], lng: userRequest.lng[1]};
   var query={"date":{$gte:userRequest.date},"time":{$gte:userRequest.time},"emails":{$ne : request.session.userEmail}}; //Data : {$gt:Date.now}

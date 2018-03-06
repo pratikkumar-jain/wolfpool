@@ -6,32 +6,32 @@
     <h4>Profile details</h4>
     <form class="formProfilePages" role="form" onsubmit="return validateForm()" name="profile_form" 
       action="/profile_page" method="POST">
-
+{{#each items}}
       <div class="form-group">
         <label for="fieldName" class="col-sm-2 control-label">Name</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="fieldName" name="name">
+          <input type="text" class="form-control" id="fieldName" value={{this.name}} name="name">
         </div>
       </div> <!-- End of form-group -->
 
       <div class="form-group">
         <label for="fieldEmail" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-4">
-          <input type="email" class="form-control" id="fieldEmail" name="email" placeholder="abc@xyz.edu">
+          <input type="email" class="form-control" id="fieldEmail" name="email" value={{this.email}} placeholder="abc@xyz.edu" readonly>
         </div>
       </div> <!-- End of form-group -->
 
       <div class="form-group">
         <label for="fieldPassword" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-4">
-          <input type="password" class="form-control" id="fieldPassword" name="password">
+          <input type="password" class="form-control" id="fieldPassword" name="password" value={{this.password}}>
         </div>
       </div> <!-- End of form-group -->
 
       <div class="form-group">
         <label for="fieldEmail" class="col-sm-2 control-label">Phone</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" data-country="US" id="fieldPhone" name="phone" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$">
+          <input type="text" class="form-control" data-country="US" id="fieldPhone" name="phone" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" value={{this.phone}}>
         </div>
       </div> <!-- End of form-group -->
 
@@ -40,11 +40,11 @@
         <div class="col-sm-4">
           <select class="form-control" id="fieldUniversity" name="university">
             <option></option>
-            <option>North Carolina State University</option>
-            <option>University of North Carolina at Chapel Hill</option>
-            <option>Duke University</option>
-            <option>Wake Forst University</option>
-            <option>East Carolina University</option>
+            <option value="North Carolina State University">North Carolina State University</option>
+            <option value="University of North Carolina at Chapel Hill">University of North Carolina at Chapel Hill</option>
+            <option value="Duke University">Duke University</option>
+            <option value="Wake Forst University">Wake Forst University</option>
+            <option value="East Carolina University">East Carolina University</option>
           </select>
         </div>
       </div> <!-- End of form-group -->
@@ -53,13 +53,13 @@
         <label for="fieldGender" class="col-sm-2 control-label">Gender</label>
         <div class="col-sm-4">
           <div class="radio">
-            <label><input type="radio" name="optradio">Male</label>
+            <label><input type="radio" name="optradio" value="Male">Male</label>
           </div>
           <div class="radio">
-            <label><input type="radio" name="optradio">Female</label>
+            <label><input type="radio" name="optradio" value="Female">Female</label>
           </div>
           <div class="radio">
-            <label><input type="radio" name="optradio">Prefer not to answer</label>
+            <label><input type="radio" name="optradio" value="Prefer not to answer">Prefer not to answer</label>
           </div>
         </div>
       </div> <!-- End of form-group -->
@@ -67,7 +67,7 @@
       <div class="form-group">
         <label for="fieldAddress" class="col-sm-2 control-label">Address</label>
         <div class="col-sm-4">
-          <textarea class="form-control" rows="5" id="fieldAddress" name="address"></textarea>
+          <textarea class="form-control" rows="5" id="fieldAddress" name="address">{{this.address}}</textarea>
         </div>
       </div> <!-- End of form-group -->
 
@@ -76,7 +76,7 @@
           <button type="submit" class="btn btn-default">Submit</button>
         </div>
       </div> <!-- End of form-group -->
-
+{{/each}}
     </form>
     <script>
       function validateForm() {
@@ -112,4 +112,4 @@
         }
     }
     </script>
-    </div> <!-- End of contactUs -->
+    </div> <!-- End of profilePage -->

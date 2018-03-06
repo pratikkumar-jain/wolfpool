@@ -73,6 +73,32 @@ exports.createUser = function(req, res){
   }
 };
 
+exports.getProfile = function(req,res){
+  var User = require('../models/user');
+  User.find({"_id":req.session.userId})
+        .then(function(doc){
+          //console.log(doc);
+          res.render('profile_page',{items:doc});
+        });
+};
+
+exports.updateProfile = function(req,res){
+  var User = require('../models/user');
+  // console.log(id);
+   User.findById({"_id":req.session.userId})
+        .then(function(doc){
+        doc.email=req.body.email;
+        doc.name=req.body.name;
+        doc.password=req.body.password;
+        doc.phone=req.body.phone;
+        doc.gender=null;
+        doc.university=null;
+        doc.address=req.body.address;
+        doc.save();
+        });
+        res.redirect('/home');
+};
+
 exports.verifyUser = function(req, res){
 
   var User = require('../models/user');
