@@ -41,8 +41,13 @@ module.exports = function(app){
 	// app.post('/savePlan',PlanController.savePlan);
 
 	app.get('/profile_page', UserController.getProfile);
+	
 	app.get('/plans_page', function(req, res){
-		res.render('plans_page');
+		if (req.session && req.session.userId) {
+			res.render('plans_page');
+		} else {
+			res.render('info_page',{data: 'You must be logged in to view this page. Back to ', name:'login', link:'login_page'});
+		}	
 	});
 	app.get('/get_plans', PlanController.getPlans);
 	app.get('/contact', function(req, res){

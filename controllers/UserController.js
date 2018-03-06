@@ -74,12 +74,17 @@ exports.createUser = function(req, res){
 };
 
 exports.getProfile = function(req,res){
-  var User = require('../models/user');
-  User.find({"_id":req.session.userId})
+
+  if (req.session && req.session.userId) {
+      var User = require('../models/user');
+       User.find({"_id":req.session.userId})
         .then(function(doc){
           //console.log(doc);
           res.render('profile_page',{items:doc});
         });
+    } else {
+      res.render('info_page',{data: 'You must be logged in to view this page. Back to ', name:'login', link:'login_page'});
+    }
 };
 
 exports.updateProfile = function(req,res){
