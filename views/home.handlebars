@@ -73,15 +73,13 @@
 					<th></th>
  					<th hidden="true"></th>
  					<th>No.</th>
-					<th>Source latitude</th>
-					<th>Source longitude</th>
+					<th>Source</th>
 					<th>Distance from Source (in miles)</th>
-					<th>Destination latitude</th>
-					<th>Destination longitude</th>
+					<th>Destination</th>
 					<th>Distance from Destination (in miles)</th>
 					<th>Date</th>
 					<th>Time (24 hour format)</th>
-					<th>Number of people</th>
+					<th>Seats occupied</th>
 					<th>Vacancy</th>
 				 </tr>
 			 </thead>
@@ -109,7 +107,7 @@
 	var map;
 
 	var geocoder = new google.maps.Geocoder;
-	
+
 	$(document).ready(function() {
 		document.getElementById("create_btn").style.visibility='hidden';
 		if (navigator.geolocation) {
@@ -259,16 +257,14 @@
 						"<td align='center'></td>" +
 						"<td align='center' hidden='true'>" + item._id + "</td>" +
 						"<td align='center'>" + (i+1) + "</td>" +
-						"<td align='center'>" + item.source_lat + "</td>" +
-						"<td align='center'>" + item.source_long + "</td>" +
+						"<td align='center'>" + item.source_id + "</td>" +
 						"<td align='center'>" + item.src_distance + "</td>" +
-						"<td align='center'>" + item.dest_lat + "</td>" +
-						"<td align='center'>" + item.dest_long + "</td>" +
+						"<td align='center'>" + item.destination_id + "</td>" +
 						"<td align='center'>" + item.dest_distance + "</td>" +
 						"<td align='center'>" + date_str[0] + "</td>" +
 						"<td align='center'>" + item.time + "</td>" +
 						"<td align='center'>" + item.no_of_people + "</td>" +
-						"<td align='center'>" + (6 - item.no_of_people) + "</td>" +
+						"<td align='center'>" + item.vacancy + "</td>" +
 						"</tr>";
 						$("#resultTable").append(tr_str);
 					}
@@ -277,11 +273,11 @@
 						        columnDefs: [ {
 						            orderable: false,
 												render: function(data, type, full, meta){
-
 												   if(type === 'display'){
-												      data = '<input type="radio" name="similar_plans" id="'+full.toString().split(',')[1]+'" value="' + data + '">';
+												      //new_data = '<input type="radio" name="similar_plans" id="'+full.toString().split(',')[1]+'" value="' + data + '">';
+	 												    new_data = '<input type="radio" name="similar_plans" id="'+full.toString().split(',')[1]+'">';
 												   }
-												   return data;
+												   return new_data;
 												},
 						            targets:   0
 						        } ],
@@ -289,6 +285,7 @@
 						            style:    'os',
 						            selector: 'td:first-child'
 						        },
+										"bDestroy": true,
 						        order: [[ 1, 'asc' ]]
 						    }
 					);

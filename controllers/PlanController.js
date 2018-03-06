@@ -14,15 +14,16 @@ exports.savePlan = function(request, response){
                                   date:request.body.date,
                                   time:request.body.time,
                                   no_of_people:request.body.no_of_people,
+                                  vacancy:6-request.body.no_of_people,
                                   emails:[request.session.userEmail]
                                 });
   		planData.save()
     .then(item => {
-      response.render('info_page',{data:"Item saved to database. Back to ", name:'home',link:'home' });
+      response.render('info_page',{data:"Plan created. Back to ", name:'home',link:'home' });
     })
     .catch(err => {
       console.log(err)
-      response.render('info_page',{data:"unable to save to database"});
+      response.render('info_page',{data:"Unable to create plan."});
     });
 };
 
@@ -45,9 +46,8 @@ exports.joinPlan = function(request, response) {
     }
     else {
         plan.emails.push(request.session.userEmail);
-        plan.vacancy = plan.no_of_people - numberOfPeople;
-        // Change this to plan.vacancy - numberOfPeople as follows:
-        // plan.vacancy = plan.vacancy - numberOfPeople;
+        //plan.vacancy = plan.no_of_people - numberOfPeople;
+        plan.vacancy = plan.vacancy - numberOfPeople;
         plan.save();
 
         // Send email to users in list that current user joined plan
@@ -67,7 +67,7 @@ exports.joinPlan = function(request, response) {
                 "FromEmail":"sengncsu2018@gmail.com",
                 "FromName":"Wolfpool Support",
                 "Subject":'Someone just joined your wolfpool plan!',
-                "Html-part": request.session.userName + ' just joined your trip with details listed below. You can get in touch with the email: ' + request.session.userEmail + '.\nTrip details:\nSource: '+plan.source_lat+'\nDestination:'+plan.dest_lat+'\nDate:'+plan.date+'\nTime:'+plan.time,
+                "Html-part": 'Hi there!\n\t'+request.session.userName + ' just joined your trip with details listed below. You can get in touch with the email: ' + request.session.userEmail + '.\nTrip details:\nSource: '+plan.source_lat+'\nDestination:'+plan.dest_lat+'\nDate:'+plan.date+'\nTime:'+plan.time,
                 "Recipients": emails
             });
 
@@ -104,13 +104,13 @@ exports.searchPlan = function(request, response){
   console.log("time : "+userRequest.time);
   var currSrc = {lat: userRequest.lat[0], lng: userRequest.lng[0]};
   var currDest = {lat: userRequest.lat[1], lng: userRequest.lng[1]};
-  var query={"date":{$gte:userRequest.date},"time":{$gte:userRequest.time},"emails":{$ne : request.session.userEmail}}; //Data : {$gt:Date.now}
+  var query={"date":{$gte:userRequest.date},"time":{$gte:userRequest.time},"emails":{$ne : request.session.userEmail},"vacancy":{$gte:userRequest.no_of_people}}; //Change to vacancy - no_of_people
   //var query={"no_of_people":{$gt:0}}; //Data : {$gt:Date.now}
   Plan.find(query,(err,plans)=>{
     if(err) {
       response.status(500).send(err);
     } else {
-      console.log("found"+plans.length);
+      console.log("found "+plans.length);
       var results=[];
       for(var i=0;i<plans.length;i++){
         var optionSrc = {lat:plans[i].source_lat,lng:plans[i].source_long};
