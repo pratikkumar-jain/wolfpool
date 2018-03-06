@@ -46,8 +46,8 @@ exports.joinPlan = function(request, response) {
     }
     else {
         plan.emails.push(request.session.userEmail);
-        //plan.vacancy = plan.no_of_people - numberOfPeople;
-        plan.vacancy = plan.vacancy - numberOfPeople;
+        plan.no_of_people = +plan.no_of_people + +numberOfPeople;
+        plan.vacancy = +plan.vacancy - +numberOfPeople;
         plan.save();
 
         // Send email to users in list that current user joined plan
@@ -78,7 +78,7 @@ exports.joinPlan = function(request, response) {
         })
 
         response.setHeader('Content-Type', 'application/text');
-        response.send("/home");
+        response.send("/plans_page");
     }
   });
 
