@@ -9,6 +9,8 @@ exports.savePlan = function(request, response){
                                   source_long:request.body.lng[0],
                                   dest_lat:request.body.lat[1],
                                   dest_long:request.body.lng[1],
+                                  src_address:request.body.source,
+                                  dest_address:request.body.destination,
                                   date:request.body.date,
                                   time:request.body.time,
                                   no_of_people:request.body.no_of_people,
@@ -16,11 +18,11 @@ exports.savePlan = function(request, response){
                                 });
   		planData.save()
     .then(item => {
-      response.render('info_page',{data:"Item saved to database. Back to ", name:'home',link:'home' });
+      response.render('info_page',{data:"Plan created. Back to ", name:'home',link:'home' });
     })
     .catch(err => {
       console.log(err)
-      response.render('info_page',{data:"unable to save to database"});
+      response.render('info_page',{data:"Unable to create plan."});
     });
 };
 
