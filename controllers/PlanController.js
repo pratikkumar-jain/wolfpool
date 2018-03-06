@@ -31,7 +31,7 @@ exports.savePlan = function(request, response){
 exports.getPlans = function(request, response){
 
   Plan.find({"emails":request.session.userEmail},function(err,planslist){
-        response.send(planslist);  
+        response.send(planslist);
   });
 };
 
@@ -53,9 +53,7 @@ exports.joinPlan = function(request, response) {
         // Send email to users in list that current user joined plan
         var emails = [];
         plan.emails.forEach(function(email){
-          if (email != request.session.userEmail){
             emails.push({'Email': email});
-          }
         });
         console.log(emails);
         // Configure the api
