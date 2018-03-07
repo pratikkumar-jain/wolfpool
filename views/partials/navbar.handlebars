@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="pull-left" href="/"><img src="/img/Logo.png" height="42" width="100"></a>
+      <a class="pull-left" href="/"><img src="/img/Logo.png" height="50" width="120"></a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -14,8 +14,9 @@
         {{#if user}}
           <li><a href="/plans_page">Your trips</a></li>
         {{/if}}
-        <li class="hidden-lg"><a href="/about">About</a></li>
-        <li class="hidden-lg"><a href="/contact">Contact</a></li>
+        <li><a href="/help">Help</a></li>
+        <li class="hidden-lg" data-toggle="modal" data-target="#contactModal"><a>Contact</a></li>
+        <li class="hidden-lg" data-toggle="modal" data-target="#aboutModal"><a>About</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {{#if user}}
