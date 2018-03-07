@@ -2,8 +2,11 @@ var geolib=require('geolib');
 var haversine = require('haversine-distance');
 var Plan = require('../models/plan');
 
-exports.savePlan = function(request, response){
+var checker=0;
 
+exports.savePlan = function(request, response){
+    if(checker != 1)
+    {
     var planModel = require('../models/plan')
     var planData = new planModel({source_id:request.body.source,
                                   destination_id:request.body.destination,
@@ -25,6 +28,11 @@ exports.savePlan = function(request, response){
       console.log(err)
       response.render('info_page',{data:"Unable to create plan."});
     });
+  }
+  else
+  {
+   response.render('info_page',{data:"Similar plans already exists. Please join existing plans."}); 
+  }
 };
 
 
@@ -118,6 +126,7 @@ exports.searchPlan = function(request, response){
           plans[i].src_distance=Math.round(haversine(currSrc, optionSrc)*0.000621371*100)/100; //to calculate the distance in miles
           plans[i].dest_distance=Math.round(haversine(currDest, optionDest)*0.000621371*100)/100; //to calculate the distance in miles
           results.push(plans[i]);
+          checker=1;
         }
       }
       console.log("*********result "+results);
