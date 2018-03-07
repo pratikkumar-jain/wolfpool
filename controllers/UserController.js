@@ -50,7 +50,7 @@ exports.createUser = function(req, res){
 
           request
           .then((result) => {
-              return res.render('info_page',{data:'An email has been sent to you with verification link.'});
+              return res.render('info_page',{data:'An email has been sent to you with verification link. Please check your spam too.'});
           })
           .catch((err) => {
               console.log("**********in email error "+user._id);
@@ -89,8 +89,7 @@ exports.getProfile = function(req,res){
 
 exports.updateProfile = function(req,res){
   var User = require('../models/user');
-  // console.log(id);
-   User.findById({"_id":req.session.userId})
+      User.findById({"_id":req.session.userId})
         .then(function(doc){
         doc.email=req.body.email;
         doc.name=req.body.name;
@@ -100,6 +99,7 @@ exports.updateProfile = function(req,res){
         doc.university=null;
         doc.address=req.body.address;
         doc.save();
+        //console.log(doc);
         });
         res.redirect('/home');
 };
