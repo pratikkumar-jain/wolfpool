@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-lg-4">
 
-		<form role="form" action="/savePlan" onsubmit="return !!(validateForm() && confirm('Are you sure you want to create a new plan?'));" name="search_create_form" method="POST" id="form1">
+		<form role="form" action="/savePlan" name="search_create_form" method="POST" id="mainDetailsForm">
 
 			<div class="form-group">
 				<label for="date_id">Date</label>
@@ -35,8 +35,8 @@
 			</div>
 
 			<div class="form-group">
-				<button type="button" onclick="return send()" class="btn btn-primary" id="similar_btn">View Similar Plans</button>
-				<button type="submit" class="btn btn-default" id="create_btn">Create a new Plan</button>
+				<button type="button" onclick="return getSimilarPlans()" class="btn btn-primary" id="similar_btn">View Similar Plans</button>
+				<button type="submit" onclick="return !!(validateForm() && confirm('Are you sure you want to create a new plan?'));" class="btn btn-default" id="create_btn">Create a new Plan</button>
 			</div>
 
 			<fieldset class="details_src" hidden="true">
@@ -110,6 +110,14 @@
 	var geocoder = new google.maps.Geocoder;
 
 	$(document).ready(function() {
+
+		$("#mainDetailsForm").keydown(function(event) {
+			if (event.keyCode == 13) {
+				event.preventDefault();
+				return false;
+			}
+		});
+
 		$('#create_btn').hide();
 
 		// Create Map
@@ -246,14 +254,14 @@
 		}
 	}
 
-	function send() {
+	function getSimilarPlans() {
 		if (!validateForm())
 			return false;
 
 		$.ajax({
 			type: "POST",
 			dataType: 'json',
-			data: $("#form1").serialize(),
+			data: $("#mainDetailsForm").serialize(),
 			url: "/searchPlan",
 			async: true,
 			success: function(json_data) {
