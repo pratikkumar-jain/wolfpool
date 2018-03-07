@@ -1,50 +1,58 @@
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 
   <div class="page-header">
     <h3>Profile Page</h3>
     </div>
     <div class="profilePage">
     <h4>Profile details</h4>
-    <form class="formProfilePages" role="form" onsubmit="return validateForm()" name="profile_form" 
+    <form id="profile_form_id" class="formProfilePages" role="form" name="profile_form" 
       action="/profile_page" method="POST">
-
+{{#each items}}
       <div class="form-group">
-        <label for="fieldName" class="col-sm-2 control-label">Name</label>
+        <label for="name" class="col-sm-2 control-label">Name</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="fieldName" name="name">
+          <input type="text" class="form-control" id="name" value={{this.name}} name="name">
         </div>
       </div> <!-- End of form-group -->
 
       <div class="form-group">
-        <label for="fieldEmail" class="col-sm-2 control-label">Email</label>
+        <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-4">
-          <input type="email" class="form-control" id="fieldEmail" name="email" placeholder="abc@xyz.edu">
+          <input type="email" class="form-control" id="email" name="email" value={{this.email}} placeholder="abc@xyz.edu" readonly>
         </div>
       </div> <!-- End of form-group -->
 
       <div class="form-group">
-        <label for="fieldPassword" class="col-sm-2 control-label">Password</label>
+        <label for="password" class="col-sm-2 control-label">Enter New Password</label>
         <div class="col-sm-4">
-          <input type="password" class="form-control" id="fieldPassword" name="password">
+          <input type="password" class="form-control" id="password" name="password">
         </div>
       </div> <!-- End of form-group -->
 
       <div class="form-group">
-        <label for="fieldEmail" class="col-sm-2 control-label">Phone</label>
+        <label for="cnfpassword" class="col-sm-2 control-label">Confirm Password</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" data-country="US" id="fieldPhone" name="phone" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$">
+          <input type="password" class="form-control" id="cnfpassword" name="cnfpassword">
         </div>
       </div> <!-- End of form-group -->
 
       <div class="form-group">
-        <label for="fieldUniversity" class="col-sm-2 control-label">University</label>
+        <label for="phone" class="col-sm-2 control-label">Phone</label>
         <div class="col-sm-4">
-          <select class="form-control" id="fieldUniversity" name="university">
+          <input type="text" class="form-control" data-country="US" id="phone" name="phone" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" value={{this.phone}}>
+        </div>
+      </div> <!-- End of form-group -->
+
+      <div class="form-group">
+        <label for="university" class="col-sm-2 control-label">University</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="university" name="university">
             <option></option>
-            <option>North Carolina State University</option>
-            <option>University of North Carolina at Chapel Hill</option>
-            <option>Duke University</option>
-            <option>Wake Forst University</option>
-            <option>East Carolina University</option>
+            <option value="North Carolina State University">North Carolina State University</option>
+            <option value="University of North Carolina at Chapel Hill">University of North Carolina at Chapel Hill</option>
+            <option value="Duke University">Duke University</option>
+            <option value="Wake Forst University">Wake Forst University</option>
+            <option value="East Carolina University">East Carolina University</option>
           </select>
         </div>
       </div> <!-- End of form-group -->
@@ -53,13 +61,13 @@
         <label for="fieldGender" class="col-sm-2 control-label">Gender</label>
         <div class="col-sm-4">
           <div class="radio">
-            <label><input type="radio" name="optradio">Male</label>
+            <label><input type="radio" name="optradio" value="Male">Male</label>
           </div>
           <div class="radio">
-            <label><input type="radio" name="optradio">Female</label>
+            <label><input type="radio" name="optradio" value="Female">Female</label>
           </div>
           <div class="radio">
-            <label><input type="radio" name="optradio">Prefer not to answer</label>
+            <label><input type="radio" name="optradio" value="Prefer not to answer">Prefer not to answer</label>
           </div>
         </div>
       </div> <!-- End of form-group -->
@@ -67,7 +75,7 @@
       <div class="form-group">
         <label for="fieldAddress" class="col-sm-2 control-label">Address</label>
         <div class="col-sm-4">
-          <textarea class="form-control" rows="5" id="fieldAddress" name="address"></textarea>
+          <textarea class="form-control" rows="5" id="fieldAddress" name="address">{{this.address}}</textarea>
         </div>
       </div> <!-- End of form-group -->
 
@@ -76,40 +84,37 @@
           <button type="submit" class="btn btn-default">Submit</button>
         </div>
       </div> <!-- End of form-group -->
-
+{{/each}}
     </form>
     <script>
-      function validateForm() {
-        var x = document.forms["profile_form"]["name"].value;
-        if (x == "") {
-            alert("Name must be filled out");
-            return false;
-        }
-        x = document.forms["profile_form"]["password"].value;
-        if (x == "") {
-            alert("Password must be filled out");
-            return false;
-        }
-        x = document.forms["profile_form"]["email"].value;
-        if (x == "") {
-            alert("Email must be filled out");
-            return false;
-        }
-        x = document.forms["profile_form"]["university"].value;
-        if (x == "") {
-            alert("Please select university");
-            return false;
-        }
-        x = document.forms["profile_form"]["gender"].value;
-        if (x == "") {
-            alert("Please select gender");
-            return false;
-        }
-        x = document.forms["profile_form"]["phone"].value;
-        if (x == "") {
-            alert("Please enter phone number");
-            return false;
-        }
-    }
+      $().ready(function(){
+      $("#profile_form_id").validate({
+      rules:{
+        name:{required:true},
+        email:{required:true,educheck:true},
+        phone:{required:true},
+        university:{required:true},
+        password:{minlength:6,pwcheck:true},
+        cnfpassword:{equalTo:"#password"}
+      },
+      messages:{
+        name: {required:"Please enter your Name"},
+        email: {required:"Please enter your Email Address",educheck:"Please enter email with .edu domain"},
+        phone: {required:"Please enter your Phone Number"},
+        university:{required:"Please select your University"},
+        password:{minlength:"Password should be atleast 6 character long",
+        pwcheck:"Password should contain atleast one special character,one digit and one character"},
+        cnfpassword:{equalTo:"Both the password should be same"}
+      }
+      });
+      $.validator.addMethod("pwcheck", function(value) {
+        return /[a-zA-Z]/.test(value) 
+       && /\d/.test(value) 
+       && /[=!\-@._*#`$%^&;:?]/.test(value)
+    });
+     $.validator.addMethod("educheck", function(value) {
+        return /^.+.edu/.test(value)
+    });
+      });
     </script>
-    </div> <!-- End of contactUs -->
+    </div> <!-- End of profilePage -->

@@ -23,8 +23,8 @@ exports.createUser = function(req, res){
       //use schema.create to insert data into the db
       User.create(userData, function (err, user) {
         if (err) {
+          return res.render('info_page',{data:'Your email is already registered. You can login ',name:'here', link:'login_page'});
           console.log(err);
-          return res.render('500');
         } else {
 
           // For local debugging
@@ -50,7 +50,7 @@ exports.createUser = function(req, res){
 
           request
           .then((result) => {
-              return res.render('info_page',{data:'An email has been sent to you with verification link.'});
+              return res.render('info_page',{data:'An email has been sent to you with verification link. Please check your spam too.'});
           })
           .catch((err) => {
               console.log("**********in email error "+user._id);
@@ -73,6 +73,37 @@ exports.createUser = function(req, res){
   }
 };
 
+exports.getProfile = function(req,res){
+
+  if (req.session && req.session.userId) {
+      var User = require('../models/user');
+       User.find({"_id":req.session.userId})
+        .then(function(doc){
+          //console.log(doc);
+          res.render('profile_page',{items:doc});
+        });
+    } else {
+      res.render('info_page',{data: 'You must be logged in to view this page. Back to ', name:'login', link:'login_page'});
+    }
+};
+
+exports.updateProfile = function(req,res){
+  var User = require('../models/user');
+      User.findById({"_id":req.session.userId})
+        .then(function(doc){
+        doc.email=req.body.email;
+        doc.name=req.body.name;
+        doc.password=req.body.password;
+        doc.phone=req.body.phone;
+        doc.gender=null;
+        doc.university=null;
+        doc.address=req.body.address;
+        doc.save();
+        //console.log(doc);
+        });
+        res.redirect('/home');
+};
+
 exports.verifyUser = function(req, res){
 
   var User = require('../models/user');
@@ -84,7 +115,7 @@ exports.verifyUser = function(req, res){
       if (err) {
         return res.render('500')
       } else if (!user) {
-        console.log('User not found.');
+        console.log('User not found!');
         return res.render('404');
       } else {
         User.update(
@@ -94,7 +125,7 @@ exports.verifyUser = function(req, res){
             if (err) {
                 console.log('Error log: ' + err)
             } else {
-                res.render('info_page',{data:'Account Verified. Search for ',name:'plans', link:'create_search_plan_page'});
+                res.render('info_page',{data:'Account Verified. Search for ',name:'plans', link:'home'});
             }
           }
         )
@@ -114,9 +145,11 @@ exports.loginUser = function(req, res){
       if (error || !user) {
         var err = new Error('Wrong email or password.');
         err.status = 401;
-        return next(err);
+        res.render('info_page',{data:'Invalid credentials. If you\'ve already registered then please check for verification link in your inbox. Else, register ', name:'here', link:'register_page'});
+        // return next(err);
       } else {
         req.session.userId = user._id;
+        req.session.userName = user.name;
         req.session.userEmail = req.body.email;
         return res.redirect('/home');
       }
