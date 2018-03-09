@@ -1,7 +1,5 @@
-<div class="row">
-  <div class="page-header">
-    <h1 align="center"><small>Welcome</small></h1>
-  </div>
+<div class="page-header">
+  <h2 align="center">Please enter the following details to register</h2>
 </div>
 
 <div class="row">
@@ -24,58 +22,58 @@
         <input type="password" class="form-control" id="cnfpassword" name="cnfpassword">
       </div>
       <div class="form-group">
-        <input type="submit" class="btn btn-default" id="submit_id" value="Register" name="Register">
+        <input type="submit" class="btn btn-primary" id="submit_id" value="Register" name="Register">
       </div>
-      <script>
-        $().ready(function() {
-          $("#register_form_id").validate({
-            rules: {
-              name: {
-                required: true
-              },
-              email: {
-                required: true,
-                educheck: true
-              },
-              password: {
-                required: true,
-                minlength: 6,
-                pwcheck: true
-              },
-              cnfpassword: {
-                required: true,
-                equalTo: "#password"
-              }
-            },
-            messages: {
-              name: {
-                required: "Please enter your Name"
-              },
-              email: {
-                required: "Please enter your Email Address",
-                educheck: "Please enter email with .edu domain"
-              },
-              password: {
-                required: "Please enter your Password",
-                minlength: "Password should be atleast 6 character long",
-                pwcheck: "Password should contain atleast one special character,one digit and one character"
-              },
-              cnfpassword: {
-                required: "Please confirm your Password",
-                equalTo: "Both the password should be same"
-              }
-            }
-          });
-          $.validator.addMethod("pwcheck", function(value) {
-            return /[a-zA-Z]/.test(value) &&
-              /\d/.test(value) &&
-              /[=!\-@._*#`$%^&;:?]/.test(value)
-          });
-          $.validator.addMethod("educheck", function(value) {
-            return /^.+.edu/.test(value)
-          });
-        });
-      </script>
     </form>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    $("#register_form_id").validate({
+      rules: {
+        name: {
+          required: true
+        },
+        email: {
+          required: true,
+          educheck: true
+        },
+        password: {
+          required: true,
+          minlength: 6,
+          pwcheck: true
+        },
+        cnfpassword: {
+          required: true,
+          equalTo: "#password"
+        }
+      },
+      messages: {
+        name: {
+          required: "Please enter your Name"
+        },
+        email: {
+          required: "Please enter your Email Address",
+          educheck: "Please enter email with .edu domain"
+        },
+        password: {
+          required: "Please enter your Password",
+          minlength: "Password should be atleast 6 character long",
+          pwcheck: "Password should contain atleast one special character,one digit and one character"
+        },
+        cnfpassword: {
+          required: "Please confirm your Password",
+          equalTo: "Both the password should be same"
+        }
+      }
+    });
+    $.validator.addMethod("pwcheck", function(value) {
+      return /[a-zA-Z]/.test(value) &&
+        /\d/.test(value) &&
+        /[=!\-@._*#`$%^&;:?]/.test(value)
+    });
+    $.validator.addMethod("educheck", function(value) {
+      return /^.+.edu/.test(value)
+    });
+  });
+</script>

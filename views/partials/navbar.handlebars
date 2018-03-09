@@ -20,10 +20,11 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {{#if user}}
+          <li><a>Welcome, {{user}} !!</a></li>
           <li><a href="/profile_page">Profile</a></li>
-          <li><a href=/logout_page>Logout</a></li>
+          <li><a href="/logout_page">Logout</a></li>
         {{else}}
-          <li><a href=/><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+          <li><a href="/">Login</a></li>
         {{/if}}
       </ul>
     </div>
