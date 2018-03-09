@@ -170,6 +170,82 @@
 				marker.setPosition(destinationObject.geometry.location);
 			});
 		}
+
+		$("#mainDetailsForm").validate({
+			rules: {
+				date: {
+					required: true,
+					datecheck: true
+				},
+				time: {
+					required: true,
+					timecheck: true
+				},
+				source: {
+					required: true
+				},
+				destination: {
+					required: true,
+					notEqual: "#source_id"
+				},
+				no_of_people: {
+					required: true,
+					min: 1,
+					max: 6
+				},
+
+			},
+			messages: {
+				date: {
+					required: "Please enter Date",
+					datecheck: "Please enter a valid date"
+				},
+				time: {
+					required: "Please enter Time",
+					timecheck: "Please enter a valid date and time combination"
+				},
+				source: {
+					required: "Please enter Source Address"
+				},
+				destination: {
+					required: "Please enter Destination Address",
+					notEqual: "Source and Destination Address cannot be same"
+				},
+				no_of_people: {
+					required: "Please enter Number of People",
+					min: "Plan should have at least one vacancy",
+					max: "Plan can have maximum vacancy of 6 people"
+				}
+			}
+		});
+
+		$.validator.addMethod("datecheck", function(value) {
+			var y = new Date();
+			if (new Date(value + " 23:59:00") < y) {
+				return false;
+			}
+			return true;
+		});
+
+		$.validator.addMethod("timecheck", function(value) {
+			var x = document.forms["search_create_form"]["date"].value;
+			x = new Date(x);
+			var y = new Date();
+			if (x < y) {
+				return false;
+			}
+			return true;
+		});
+
+		$.validator.addMethod("notEqual", function(value) {
+			var x = document.forms["search_create_form"]["source"].value;
+			var y = document.forms["search_create_form"]["destination"].value;
+			if (x == y) {
+				return false;
+			}
+			return true;
+		});
+
 	});
 
 	$('#source_umcl').click(function() {
@@ -253,6 +329,10 @@
 	}
 
 	function getSimilarPlans() {
+
+		if (!$("#mainDetailsForm").valid())
+			return false;
+
 		$('#source_lat').val(sourceObject.geometry.location.lat());
 		$('#source_long').val(sourceObject.geometry.location.lng());
 		$('#dest_lat').val(destinationObject.geometry.location.lat());
@@ -329,41 +409,4 @@
 			}
 		});
 	}
-
-	$().ready(function(){
-      $("#mainDetailsForm").validate({
-      rules:{
-        date_id:{required:true,datecheck:true},
-        time_id:{required:true,timecheck:true},
-        source:{required:true},
-        destination:{required:true,notEqual:"#source"},
-        no_of_people:{required:true},
-        
-      },
-      messages:{
-        date_id: {required:"Please enter Date",datecheck:"Please enter a valid date"},
-        time_id: {required:"Please enter Time",timecheck:"Please enter a valid time"},
-        source: {required:"Please enter Source Address"},
-        destination:{required:"Please enter Destination Address",notEqual:"Source and Destination Address cannot be same"},
-        no_of_people:{required:"Please enter Number of People"}
-      }
-      });
-     $.validator.addMethod("datecheck", function(value) {
-     	var y = new Date();
-        if (new Date(value + " 23:59:00") < y) {
-			return false;
-		}
-		return true;
-    });
-    $.validator.addMethod("timecheck", function(value) {
-    	var x = document.forms["search_create_form"]["date"].value;
-     	x = new Date(x + " " + t + ":00");
-     	var y = new Date();
-		if (x < y) {
-			return false;
-		}
-		return true;
-    });
-      });
-
 </script>

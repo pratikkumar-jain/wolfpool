@@ -1,47 +1,49 @@
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
-
-  <div class="page-header">
-    <h3>Profile Page</h3>
-    </div>
-    <div class="profilePage">
-    <h4>Profile details</h4>
-    <form id="profile_form_id" class="formProfilePages" role="form" name="profile_form" 
-      action="/profile_page" method="POST">
-{{#each items}}
+<div class="page-header">
+  <h3>Profile Page</h3>
+</div>
+<div class="profilePage">
+  <h4>Profile details</h4>
+  <form id="profile_form_id" class="formProfilePages" role="form" name="profile_form" action="/profile_page" method="POST">
+    {{#each items}}
       <div class="form-group">
         <label for="name" class="col-sm-2 control-label">Name</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="name" value={{this.name}} name="name">
+          <input type="text" class="form-control" id="name" value= {{this.name}} name="name">
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-4">
-          <input type="email" class="form-control" id="email" name="email" value={{this.email}} placeholder="abc@xyz.edu" readonly>
+          <input type="email" class="form-control" id="email" name="email" value= {{this.email}} placeholder="abc@xyz.edu" readonly>
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <label for="password" class="col-sm-2 control-label">Enter New Password</label>
         <div class="col-sm-4">
           <input type="password" class="form-control" id="password" name="password">
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <label for="cnfpassword" class="col-sm-2 control-label">Confirm Password</label>
         <div class="col-sm-4">
           <input type="password" class="form-control" id="cnfpassword" name="cnfpassword">
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <label for="phone" class="col-sm-2 control-label">Phone</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" data-country="US" id="phone" name="phone" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" value={{this.phone}}>
+          <input type="text" class="form-control" data-country="US" id="phone" name="phone" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" value= {{this.phone}}>
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <label for="university" class="col-sm-2 control-label">University</label>
@@ -55,7 +57,8 @@
             <option value="East Carolina University">East Carolina University</option>
           </select>
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <label for="fieldGender" class="col-sm-2 control-label">Gender</label>
@@ -70,51 +73,82 @@
             <label><input type="radio" name="optradio" value="Prefer not to answer">Prefer not to answer</label>
           </div>
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <label for="fieldAddress" class="col-sm-2 control-label">Address</label>
         <div class="col-sm-4">
           <textarea class="form-control" rows="5" id="fieldAddress" name="address">{{this.address}}</textarea>
         </div>
-      </div> <!-- End of form-group -->
+      </div>
+      <!-- End of form-group -->
 
       <div class="form-group">
         <div class="col-sm-4">
           <button type="submit" class="btn btn-default">Submit</button>
         </div>
-      </div> <!-- End of form-group -->
-{{/each}}
-    </form>
-    <script>
-      $().ready(function(){
+      </div>
+      <!-- End of form-group -->
+    {{/each}}
+  </form>
+  <script>
+    $().ready(function() {
       $("#profile_form_id").validate({
-      rules:{
-        name:{required:true},
-        email:{required:true,educheck:true},
-        phone:{required:true},
-        university:{required:true},
-        password:{minlength:6,pwcheck:true},
-        cnfpassword:{equalTo:"#password"}
-      },
-      messages:{
-        name: {required:"Please enter your Name"},
-        email: {required:"Please enter your Email Address",educheck:"Please enter email with .edu domain"},
-        phone: {required:"Please enter your Phone Number"},
-        university:{required:"Please select your University"},
-        password:{minlength:"Password should be atleast 6 character long",
-        pwcheck:"Password should contain atleast one special character,one digit and one character"},
-        cnfpassword:{equalTo:"Both the password should be same"}
-      }
+        rules: {
+          name: {
+            required: true
+          },
+          email: {
+            required: true,
+            educheck: true
+          },
+          phone: {
+            required: true
+          },
+          university: {
+            required: true
+          },
+          password: {
+            minlength: 6,
+            pwcheck: true
+          },
+          cnfpassword: {
+            equalTo: "#password"
+          }
+        },
+        messages: {
+          name: {
+            required: "Please enter your Name"
+          },
+          email: {
+            required: "Please enter your Email Address",
+            educheck: "Please enter email with .edu domain"
+          },
+          phone: {
+            required: "Please enter your Phone Number"
+          },
+          university: {
+            required: "Please select your University"
+          },
+          password: {
+            minlength: "Password should be atleast 6 character long",
+            pwcheck: "Password should contain atleast one special character,one digit and one character"
+          },
+          cnfpassword: {
+            equalTo: "Both the password should be same"
+          }
+        }
       });
       $.validator.addMethod("pwcheck", function(value) {
-        return /[a-zA-Z]/.test(value) 
-       && /\d/.test(value) 
-       && /[=!\-@._*#`$%^&;:?]/.test(value)
-    });
-     $.validator.addMethod("educheck", function(value) {
-        return /^.+.edu/.test(value)
-    });
+        return /[a-zA-Z]/.test(value) &&
+          /\d/.test(value) &&
+          /[=!\-@._*#`$%^&;:?]/.test(value)
       });
-    </script>
-    </div> <!-- End of profilePage -->
+      $.validator.addMethod("educheck", function(value) {
+        return /^.+.edu/.test(value)
+      });
+    });
+  </script>
+</div>
+<!-- End of profilePage -->
