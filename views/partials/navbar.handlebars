@@ -10,7 +10,7 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/home">Search Plans<span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="/home">Search Plans</a></li>
         {{#if user}}
           <li><a href="/plans_page">Your trips</a></li>
         {{/if}}
@@ -20,7 +20,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {{#if user}}
-          <li><a>Welcome, {{user}} !!</a></li>
+          <li><a>Welcome, {{username}} !!</a></li>
           <li><a href="/profile_page">Profile</a></li>
           <li><a href="/logout_page">Logout</a></li>
         {{else}}
