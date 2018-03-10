@@ -81,7 +81,7 @@ node app.js
 * **Ankit Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
 * **Nirav Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
 * **Rishabh Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
-* **Pratik Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
+* **Pratik Jain** - *kumathpratik@gmail.com* - [github](http://github.com/pratikkumar-jain)
 
 ## License
 
