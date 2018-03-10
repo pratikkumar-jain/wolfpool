@@ -88,7 +88,7 @@ Please follow the step mentioned in the Google reference doc [here](https://supp
 * **Ankit Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
 * **Nirav Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
 * **Rishabh Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
-* **Pratik Jain** - *er.chiragjain92@gmail.com* - [github](http://github.com/CJ8664)
+* **Pratik Kumar Jain** - *kumathpratik@gmail.com* - [github](https://github.com/pratikkumar-jain)
 
 ## License
 
