@@ -1,8 +1,7 @@
 node_modules/*
-node_modules/
 .DS_Store
-config.json
 se.pem
+mailjet_init.sh
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

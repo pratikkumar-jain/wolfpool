@@ -10,20 +10,21 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/home">Search Plans<span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="/home">Search Plans</a></li>
         {{#if user}}
           <li><a href="/plans_page">Your trips</a></li>
         {{/if}}
-        <li><a href="/help">Help</a></li>
+        <li><a href="/help">Help/FAQ</a></li>
         <li class="hidden-lg" data-toggle="modal" data-target="#contactModal"><a>Contact</a></li>
         <li class="hidden-lg" data-toggle="modal" data-target="#aboutModal"><a>About</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {{#if user}}
+          <li><a>Welcome, {{username}} !!</a></li>
           <li><a href="/profile_page">Profile</a></li>
-          <li><a href=/logout_page>Logout</a></li>
+          <li><a href="/logout_page">Logout</a></li>
         {{else}}
-          <li><a href=/><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+          <li><a href="/">Login</a></li>
         {{/if}}
       </ul>
     </div>

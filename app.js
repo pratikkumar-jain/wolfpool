@@ -5,7 +5,7 @@ var handlebars = require('express-handlebars');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(session);
 var expressValidator = require('express-validator');
-var geolib=require('geolib');
+var geolib = require('geolib');
 
 // Database code
 mongoose.connect('mongodb://localhost:27017/wolfpool');
@@ -14,7 +14,9 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Handlebar Code
-handlebars = handlebars.create({defaultLayout:'main'});
+handlebars = handlebars.create({
+  defaultLayout: 'main'
+});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -39,6 +41,6 @@ app.use(expressValidator());
 // send app to router
 require('./router')(app);
 
-app.listen(app.get('port'), function(){
+app.listen(app.get('port'), function() {
   console.log('Express started on http://localhost:' + app.get('port') + ' press Ctrl-C to terminate');
 });

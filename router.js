@@ -10,6 +10,7 @@ module.exports = function(app) {
   }));
   app.use(function(req, res, next) {
     res.locals.user = req.session.userId;
+    res.locals.username = req.session.userName;
     next();
   });
 

@@ -29,7 +29,7 @@ exports.createUser = function(req, res){
 
           // For local debugging
           // var websitehost = 'http://localhost:3000';
-          var websitehost = 'http://wpool-dev.us-east-1.elasticbeanstalk.com';
+          var websitehost = 'https://wpool-dev.us-east-1.elasticbeanstalk.com';
 
           // Configure the api
           var mailjet = require('node-mailjet').connect(process.env.MJ_PUBLIC_KEY, process.env.MJ_PRIVATE_KEY)
