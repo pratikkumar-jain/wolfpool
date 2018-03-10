@@ -58,7 +58,6 @@ export MJ_PRIVATE_KEY="Your Private key"
 
 * Open the file controllers/UserController.js and modify the hostname in line 31 that forms the hostname part of the verification link.
 
-
 STEP 6: If all the above steps are completed successfully then you can start the bare minimum web application host **[Few of the essential features on work online when hosted on a cloud service provider like Amazon Web Services]**
 
 * Run the following Command and open localhost on a browser
@@ -69,11 +68,19 @@ node app.js
 'Express started on http://localhost:3000 press Ctrl-C to terminate'
 ```
 
-## Amazon Web Serivces Deployment
+Now you can register as a new user and start using the web application. Once you get the
 
-## HTTPS Certificate installation
+## HTTPS Certificate installation [Free][Not Needed for Localhost]
 
-## Google Analytics Setup
+You can get an SSL Certificate for your web application from [https://www.sslforfree.com/](https://www.sslforfree.com/). This will enable make all the data transfer on your website secure. More importantly the web application uses native HTML5 geolocation API, which works fine on localhost but fails to work once hosted on AWS or other hosting. The part to install this certificate on AWS will be covered in upcoming sections.
+
+NOTE: This step is one of the step in AWS deployment but mentioned as separate step so that can be used in any other project.
+
+## Google Analytics Setup [Optional]
+
+Please follow the step mentioned in the Google reference doc [here](https://support.google.com/analytics/answer/1008080?hl=en). Once you get the analytics code you can replace it in the file views/partials/head.handlebars, lines 22 through 28. Google Analytics is a brilliant tool to understand and track Daily user activities and other details.
+
+## Amazon Web Services Deployment
 
 ## Authors
 
